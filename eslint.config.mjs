@@ -1,13 +1,19 @@
 import { defineConfig } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import stylistic from '@stylistic/eslint-plugin';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 
 export default defineConfig([
   ...nextVitals,
-
   {
+    files: ['**/*.ts', '**/*.tsx'],
+    languageOptions: {
+      parser: tsParser,
+    },
     plugins: {
-      '@stylistic': stylistic
+      '@stylistic': stylistic,
+      '@typescript-eslint': tsPlugin,
     },
     rules: {
       '@stylistic/indent': ['error', 2],
