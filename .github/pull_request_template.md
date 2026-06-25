@@ -10,6 +10,4 @@ What changed, and why?
 Anything important for review or special decisions.
 
 ## Checklist
-- [ ] No errors and warnings in the console
-- [ ] No console.log execution
 - [ ] No @ts-ignore or any usage

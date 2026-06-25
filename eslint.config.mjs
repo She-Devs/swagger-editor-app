@@ -22,6 +22,8 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/ban-ts-comment': 'error',
       '@typescript-eslint/no-unused-vars': 'error',
+      '@stylistic/eol-last': ['error', 'always'],
+      'no-console': 'error',
     }
   }
 ]);
