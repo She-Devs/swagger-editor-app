@@ -2,7 +2,6 @@
   "name": "swagger-editor-app",
   "version": "0.1.0",
   "private": true,
-  
   "engines": {
     "node": "24.13.1"
   },
@@ -28,6 +27,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.5",
+    "@netlify/plugin-nextjs": "^5.15.12",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
