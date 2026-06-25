@@ -1,10 +1,15 @@
-import { defineConfig } from 'eslint/config';
+import { defineConfig, globalIgnores } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import stylistic from '@stylistic/eslint-plugin';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 
 export default defineConfig([
+    globalIgnores([
+    'coverage/**',
+    '.next/**',
+  ]),
+
   ...nextVitals,
   {
     files: ['**/*.ts', '**/*.tsx'],
