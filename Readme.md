@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RS React Final Project: Swagger-Editor-App
 
-## Getting Started
+**Swagger-Editor-App** is a powerful, full-featured tool that combines the capabilities of a visual OpenAPI/Swagger specification editor and a flexible REST client within a single application. Designed for developers and QA engineers, it enables users to design, validate, and instantly test APIs without running into CORS issues, thanks to server-side execution (SSR/Proxy). The application features an authentication system, server-side request history tracking with detailed analytics, internationalization (i18n) support, and a responsive interface.
 
-First, run the development server:
+## Team - She-Devs
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This project was developed by the RSSAgents team as part of the RS School JS/FE course:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Role                   | Name      | GitHub                               |
+| ---------------------- | --------- | -------------------------------------|
+| **Mentor**             | Diana     | (https://github.com/bt-diana)        |
+| **Mentor**             | Margarita | (https://github.com/Margaryta-Maletz)|
+| **Developer (TL)**     | Margarita | (https://github.com/solarsungai)     |
+| **Developer**          | Marta     | (https://github.com/27moon)          |
+| **Developer**          | Vika      | (https://github.com/oneilcode)       |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend** | React, TypeScript
+- **Design System** | Mantine
+- **Routing** | React Router 7 (Framework mode)
+- **Forms** | React Hook Form
+- **State Management** | Zustand
+- **Database & Auth** | Supabase
+- **Build Tool** | Vite
+- **Code Quality** | ESLint, Husky
+- **Testing** | Unit tests (React Testing Library), End-to-end tests (Cypress), Vitest
+- **CI/CD** | GitHub Actions (Dev → Staging, Main → Production)
+- **API Client** | Axios
