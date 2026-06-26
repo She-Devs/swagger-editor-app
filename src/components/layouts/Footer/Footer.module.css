@@ -1,0 +1,64 @@
+.footer {
+  border-top: 1px solid var(--mantine-color-gray-2);
+  height: 64px;
+  margin-top: auto;
+}
+
+[data-mantine-color-scheme="dark"] .footer {
+  border-top-color: var(--mantine-color-gray-8);
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 var(--mantine-spacing-xl);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: var(--mantine-font-size-lg);
+  color: var(--mantine-color-gray-9);
+  text-decoration: none;
+}
+
+[data-mantine-color-scheme="dark"] .logo {
+  color: var(--mantine-color-gray-0);
+}
+
+.link {
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+  color: var(--mantine-color-gray-6);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.link:hover {
+  color: var(--mantine-color-gray-9);
+}
+
+[data-mantine-color-scheme="dark"] .link {
+  color: var(--mantine-color-gray-4);
+}
+
+[data-mantine-color-scheme="dark"] .link:hover {
+  color: var(--mantine-color-gray-0);
+}
+
+.year {
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-gray-5);
+}
+
+.rsLogo {
+  width: 20px;
+  height: 20px;
+  margin-right: var(--mantine-spacing-xs);
+  vertical-align: middle;
+}
+
+[data-mantine-color-scheme="dark"] .year {
+  color: var(--mantine-color-gray-6);
+}
