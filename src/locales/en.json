@@ -1,0 +1,11 @@
+{
+  "Navigation": {
+    "main": "Main",
+    "about": "About",
+    "sign-in": "Sign In",
+    "sign-up": "Sign up"
+  },
+  "About": {
+    "title": "About this app"
+  }
+}
