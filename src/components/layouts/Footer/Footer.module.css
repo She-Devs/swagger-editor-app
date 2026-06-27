@@ -28,6 +28,8 @@
 }
 
 .link {
+  display: flex;
+  gap: 10px;
   font-size: var(--mantine-font-size-sm);
   font-weight: 500;
   color: var(--mantine-color-gray-6);

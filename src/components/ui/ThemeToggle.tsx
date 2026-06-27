@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { ActionIcon, useMantineColorScheme } from "@mantine/core";
-import { useEffect, useState } from "react";
-import classes from "./../layouts/Header/Header.module.css";
+import { ActionIcon, useMantineColorScheme } from '@mantine/core';
+import { useEffect, useState } from 'react';
+import classes from './../layouts/Header/Header.module.css';
 
 export function ThemeToggle() {
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
@@ -25,7 +25,7 @@ export function ThemeToggle() {
       radius="md"
       className={classes.iconBtn}
     >
-      {colorScheme === "dark" ? "🌙" : "☀️"}
+      {colorScheme === 'dark' ? '🌙' : '☀️'}
     </ActionIcon>
   );
 }
