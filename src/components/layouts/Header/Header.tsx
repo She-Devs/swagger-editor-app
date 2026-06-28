@@ -11,6 +11,7 @@ import { LOGO } from '@/constants';
 
 export function Header() {
   const t = useTranslations('Navigation');
+  const isAuth = true
 
   return (
     <Box component="header" className={classes.header}>
@@ -27,10 +28,22 @@ export function Header() {
           </Link>
         </Group>
         <Group gap="sm">
+
+        {isAuth ? (
+          <>
           <Button variant="default" className={classes.loginBtn}>
             {t('sign-in')}
           </Button>
-          <Button className={classes.signupBtn}> {t('sign-up')}</Button>
+          <Button className={classes.signupBtn}> {t('sign-up')}</Button></>    
+          ): (
+          <>
+          <Button variant="default" className={classes.loginBtn}>
+                {t('history')}
+          </Button>
+          <Button className={classes.signupBtn}> {t('sign-out')}</Button>
+          </>
+        )}
+          
           <ThemeToggle />
           <LanguageToggle />
         </Group>

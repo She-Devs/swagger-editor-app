@@ -3,7 +3,9 @@
     "main": "Main",
     "about": "About",
     "sign-in": "Sign In",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "history": "History",
+    "sign-out": "Sign out"
   },
   "About": {
     "title": "About this app"
