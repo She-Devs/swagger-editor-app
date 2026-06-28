@@ -8,13 +8,24 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { LanguageToggle } from '@/components/ui/LanguageToggle';
 import { Link } from '@/i18n/navigation';
 import { LOGO } from '@/constants';
+import { useEffect, useState } from 'react';
 
 export function Header() {
   const t = useTranslations('Navigation');
-  const isAuth = true
+  const isAuth = true;
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <Box component="header" className={classes.header}>
+    <Box component="header"  className={`${classes.header} ${scrolled ? classes.scrolled : ''}`}>
       <Container size="2xl" className={classes.container}>
         <Text component="a" href="/" className={classes.logo}>
           {LOGO}
