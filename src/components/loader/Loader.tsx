@@ -4,17 +4,14 @@ import { Center, Loader } from '@mantine/core';
 
 interface LoaderProps {
   visible?: boolean;
-  bg?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   type?: 'bars' | 'dots' | 'oval';
-  color?: string;
 }
 
 export function LoaderComponent({ 
   visible = true,
   size = 'xl', 
-  type = 'oval',
-  color = '#228be6'
+  type = 'oval'
 }: LoaderProps) {
   
   if (!visible) return null;
@@ -24,16 +21,16 @@ export function LoaderComponent({
       pos="fixed" 
       inset={0} 
       h="100vh" 
-      w="100vw" 
+      w="100vw"
+      style={{
+        backgroundColor: 'var(--mantine-color-body)',
+        backdropFilter: 'blur(4px)',
+        zIndex: 9999, 
+      }}
     >
       <Loader 
-        color={color} 
         size={size} 
         type={type} 
-        style={{ 
-          stroke: color,
-          color: color
-        }} 
       />
     </Center>
   );
