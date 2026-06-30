@@ -40,7 +40,7 @@ export function Header() {
         </Group>
         <Group gap="sm">
 
-          {isAuth ? (
+          {!isAuth ? (
             <>
               <Button variant="default" className={classes.loginBtn}>
                 {t('sign-in')}
