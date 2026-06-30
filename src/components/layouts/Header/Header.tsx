@@ -27,9 +27,9 @@ export function Header() {
   return (
     <Box component="header"  className={`${classes.header} ${scrolled ? classes.scrolled : ''}`}>
       <Container size="2xl" className={classes.container}>
-      <Link href="/" className={classes.logo}>
-        {LOGO}
-      </Link>
+        <Link href="/" className={classes.logo}>
+          {LOGO}
+        </Link>
         <Group gap="xl">
           <Link className={classes.link} href="/">
             {t('main')}
