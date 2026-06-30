@@ -5,18 +5,23 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
 import classes from './../layouts/Header/Header.module.css';
+import { Locale, localesArray } from '@/i18n/request';
 
 export function LanguageToggle() {
   const router = useRouter();
   const pathname = usePathname();
-  const locale = useLocale();
+  const currentLocale = useLocale();
   const [isPending, startTransition] = useTransition();
 
   const toggleLanguage = () => {
-    const newLocale = locale === 'en' ? 'ru' : 'en';
-    const segments = pathname.split('/');
-    segments[1] = newLocale;
-    const newPathname = segments.join('/') || '/';
+    const newLocale = currentLocale === Locale.EN ? Locale.RU : Locale.EN;
+
+    if (!localesArray.includes(newLocale)) {
+      return; 
+    }
+    
+    const pathnameWithoutLocale = pathname.replace(/^\/[^\/]+/, '');
+    const newPathname = `/${newLocale}${pathnameWithoutLocale}`;
 
     startTransition(() => {
       router.push(newPathname);
@@ -29,7 +34,7 @@ export function LanguageToggle() {
       onClick={toggleLanguage}
       loading={isPending}
     >
-      {locale === 'en' ? 'RU' : 'EN'}
+      {currentLocale === Locale.EN ? 'RU' : 'EN'}
     </Button>
   );
 }

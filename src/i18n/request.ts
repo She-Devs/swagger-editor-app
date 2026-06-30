@@ -1,11 +1,16 @@
 import { getRequestConfig } from 'next-intl/server';
 
-export const locales = ['en', 'ru'];
-export const defaultLocale = 'en';
+export enum Locale {
+  EN = 'en',
+  RU = 'ru',
+}
+
+export const localesArray: string[] = Object.values(Locale); 
+export const defaultLocale = Locale.EN;
 
 export default getRequestConfig(async ({ locale }) => {
-  const selectedLocale =
-    locale && locales.includes(locale) ? locale : defaultLocale;
+  const isValidLocale = locale && localesArray.includes(locale);
+  const selectedLocale = isValidLocale ? (locale as Locale) : defaultLocale;
 
   return {
     locale: selectedLocale,
