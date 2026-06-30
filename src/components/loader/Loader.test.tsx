@@ -21,7 +21,7 @@ describe('LoaderComponent', () => {
     );
 
     const loader = container.querySelector('.mantine-Loader-root');
-    expect(loader).toBeDefined();
+    expect(loader).not.toBeNull();
   });
 
   it('should not render when hidden', () => {

@@ -27,9 +27,9 @@ describe('DashboardLayout', () => {
     );
 
     const splitter = container.querySelector('.mantine-Splitter-root');
-    expect(splitter).toBeDefined();
+    expect(splitter).toBeTruthy();
 
     const scrollAreas = container.querySelectorAll('.mantine-ScrollArea-root');
-    expect(scrollAreas.length).toBeGreaterThan(0);
+    expect(scrollAreas.length).toBe(2);
   });
 });
