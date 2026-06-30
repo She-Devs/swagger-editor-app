@@ -1,19 +1,21 @@
 'use client';
 
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import classes from './../layouts/Header/Header.module.css';
 
 export function ThemeToggle() {
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
-  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [mounted] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return true;
+    }
+    return false;
+  });
 
   if (!mounted) {
-    return <ActionIcon variant="default" size="xl" radius="md" />;
+    return <ActionIcon variant="default" size="xl" radius="md" suppressHydrationWarning />;
   }
 
   return (
