@@ -1,9 +1,17 @@
-import type { ReactNode } from 'react';
+import type { Metadata } from 'next';
 import './globals.css';
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: 'Swagger',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );
