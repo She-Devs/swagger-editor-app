@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@mantine/core';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
 import classes from './../layouts/Header/Header.module.css';
-import { Locale, localesArray } from '@/i18n/request';
+import { Locale } from '@/i18n/request';
 import { lANG_EN, lANG_RU } from '@/constants';
 
 export function LanguageToggle() {
@@ -17,15 +17,8 @@ export function LanguageToggle() {
   const toggleLanguage = () => {
     const newLocale = currentLocale === Locale.EN ? Locale.RU : Locale.EN;
 
-    if (!localesArray.includes(newLocale)) {
-      return; 
-    }
-    
-    const pathnameWithoutLocale = pathname.replace(/^\/[^\/]+/, '');
-    const newPathname = `/${newLocale}${pathnameWithoutLocale}`;
-
     startTransition(() => {
-      router.push(newPathname);
+      router.replace(pathname, { locale: newLocale });
     });
   };
 
