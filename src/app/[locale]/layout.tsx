@@ -16,8 +16,6 @@ export default async function RootLayout({
   const { locale } = await params;
   const messages = await getMessages({ locale });
   return (
-    <html lang={locale}>
-      <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <MantineProvider theme={theme} defaultColorScheme="auto">
             <Header />
@@ -25,7 +23,6 @@ export default async function RootLayout({
             <Footer />
           </MantineProvider>
         </NextIntlClientProvider>
-      </body>
-    </html>
+   
   );
 }
