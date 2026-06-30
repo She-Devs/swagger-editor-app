@@ -20,7 +20,6 @@ export function LanguageToggle() {
 
     startTransition(() => {
       router.push(newPathname);
-      router.refresh();
     });
   };
 
