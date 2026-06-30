@@ -13,9 +13,9 @@ export function Footer() {
   return (
     <Box component="footer" className={classes.footer}>
       <Container size="2xl" className={classes.container}>
-        <Text component="a" href="/" className={classes.logo}>
-          {LOGO}
-        </Text>
+      <Link href="/" className={classes.logo}>
+        {LOGO}
+      </Link>
         <Group gap="xl">
           <Link className={classes.link} href="/">
             {t('main')}
