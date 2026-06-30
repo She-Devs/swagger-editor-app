@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
 import classes from './../layouts/Header/Header.module.css';
 import { Locale, localesArray } from '@/i18n/request';
+import { lANG_EN, lANG_RU } from '@/constants';
 
 export function LanguageToggle() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export function LanguageToggle() {
       onClick={toggleLanguage}
       loading={isPending}
     >
-      {currentLocale === Locale.EN ? 'RU' : 'EN'}
+      {currentLocale === Locale.EN ? lANG_RU : lANG_EN}
     </Button>
   );
 }

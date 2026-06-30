@@ -3,6 +3,7 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
 import { useState } from 'react';
 import classes from './../layouts/Header/Header.module.css';
+import { THEME_DARK, THEME_MOON, THEME_SUN } from '@/constants';
 
 export function ThemeToggle() {
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
@@ -26,7 +27,7 @@ export function ThemeToggle() {
       radius="md"
       className={classes.iconBtn}
     >
-      {colorScheme === 'dark' ? '🌙' : '☀️'}
+      {colorScheme === THEME_DARK ? THEME_MOON : THEME_SUN}
     </ActionIcon>
   );
 }
