@@ -1,35 +1,32 @@
-import { defineConfig, globalIgnores } from 'eslint/config';
-import nextVitals from 'eslint-config-next/core-web-vitals';
-import stylistic from '@stylistic/eslint-plugin';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import stylistic from "@stylistic/eslint-plugin";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
 export default defineConfig([
-    globalIgnores([
-    'coverage/**',
-    '.next/**',
-  ]),
+  globalIgnores(["coverage/**", ".next/**"]),
 
   ...nextVitals,
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     languageOptions: {
       parser: tsParser,
     },
     plugins: {
-      '@stylistic': stylistic,
-      '@typescript-eslint': tsPlugin,
+      "@stylistic": stylistic,
+      "@typescript-eslint": tsPlugin,
     },
     rules: {
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/quotes': ['error', 'single'],
-      '@stylistic/semi': ['error', 'always'],
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/ban-ts-comment': 'error',
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@stylistic/eol-last': ['error', 'always'],
-      'no-console': 'error',
-      "react-hooks/set-state-in-effect": "off"
-    }
-  }
+      "@stylistic/indent": ["error", 2],
+      "@stylistic/quotes": ["error", "single"],
+      "@stylistic/semi": ["error", "always"],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/ban-ts-comment": "error",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@stylistic/eol-last": ["error", "always"],
+      "no-console": "error",
+       "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);

@@ -12,27 +12,29 @@ interface LoaderProps {
 
 export function LoaderComponent({ 
   visible = true,
-  bg = '#f1f3f5', 
   size = 'xl', 
   type = 'oval',
-  color = '#228be6' 
+  color = '#228be6'
 }: LoaderProps) {
   
   if (!visible) return null;
 
   return (
     <Center 
-      style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 9999,
-        height: '100vh', 
-        width: '100vw',
-        backgroundColor: bg 
-      }}
+      pos="fixed" 
+      inset={0} 
+      h="100vh" 
+      w="100vw" 
     >
-      <Loader color={color} size={size} type={type} style={{ color: color }} />
+      <Loader 
+        color={color} 
+        size={size} 
+        type={type} 
+        style={{ 
+          stroke: color,
+          color: color
+        }} 
+      />
     </Center>
   );
 }
