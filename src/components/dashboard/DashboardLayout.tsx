@@ -26,7 +26,7 @@ export function DashboardLayout() {
   return (
     <Splitter
       orientation={isLandscape ? 'horizontal' : 'vertical'}
-      style={{ height: '100vh', width: '100vw' }}
+      style={{ height: '100vh' }}
     >
       <Splitter.Pane defaultSize={50}>
         <EditorPanel />
