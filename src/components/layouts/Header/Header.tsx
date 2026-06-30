@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Box, Button, Group, Text, Container } from '@mantine/core';
+import { Box, Button, Group, Container } from '@mantine/core';
 import '@mantine/core/styles.css';
 import classes from './Header.module.css';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
