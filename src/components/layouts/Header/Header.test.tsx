@@ -4,12 +4,10 @@ import { Header } from './Header';
 import { useAuthStore } from '@/store/authStore';
 import { act } from 'react';
 
-// ── Mock next-intl ──────────────────────────────────────────────────────────
 vi.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }));
 
-// ── Mock navigation ─────────────────────────────────────────────────────────
 const mockRouterPush = vi.fn();
 vi.mock('@/i18n/navigation', () => ({
   useRouter: () => ({ push: mockRouterPush }),
@@ -20,7 +18,6 @@ vi.mock('@/i18n/navigation', () => ({
   ),
 }));
 
-// ── Mock supabase client ────────────────────────────────────────────────────
 const mockSignOut = vi.fn();
 vi.mock('@/lib/supabase/client', () => ({
   createClient: () => ({
@@ -28,7 +25,6 @@ vi.mock('@/lib/supabase/client', () => ({
   }),
 }));
 
-// ── Mock Mantine ────────────────────────────────────────────────────────────
 vi.mock('@mantine/core', async () => {
   return {
     Box: ({ children, component: C = 'div', ...rest }: { children: React.ReactNode; component?: string; className?: string }) => (
@@ -58,7 +54,6 @@ vi.mock('@/components/ui/ThemeToggle', () => ({ ThemeToggle: () => null }));
 vi.mock('@/components/ui/LanguageToggle', () => ({ LanguageToggle: () => null }));
 vi.mock('@/constants', () => ({ LOGO: 'LOGO' }));
 
-// ── Tests ───────────────────────────────────────────────────────────────────
 describe('Header', () => {
   beforeEach(() => {
     vi.clearAllMocks();

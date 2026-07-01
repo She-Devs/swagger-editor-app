@@ -1,10 +1,5 @@
 import { z } from 'zod';
 
-// Password validation regex:
-// - At least 8 characters
-// - At least one letter (Unicode supported)
-// - At least one digit
-// - At least one special character
 const passwordRegex = /^(?=.*[\p{L}])(?=.*\d)(?=.*[^\p{L}\d\s]).{8,}$/u;
 
 export const signInSchema = z.object({
