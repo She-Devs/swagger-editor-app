@@ -27,9 +27,10 @@ vi.mock('@/lib/supabase/client', () => ({
 
 vi.mock('@mantine/core', async () => {
   return {
-    Box: ({ children, component: C = 'div', ...rest }: { children: React.ReactNode; component?: string; className?: string }) => (
-      <C {...rest}>{children}</C>
-    ),
+    Box: ({ children, component, ...rest }: { children: React.ReactNode; component?: string; className?: string }) => {
+      const C = (component ?? 'div') as React.ElementType;
+      return <C {...rest}>{children}</C>;
+    },
     Container: ({ children, ...rest }: { children: React.ReactNode }) => <div {...rest}>{children}</div>,
     Group: ({ children, ...rest }: { children: React.ReactNode }) => <div {...rest}>{children}</div>,
     Button: ({
