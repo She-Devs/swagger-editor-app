@@ -1,3 +1,8 @@
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+
+
 export default function Home() {
-  return <div>Swagger Editor App</div>;
+  return (
+    <DashboardLayout />
+  );
 }
