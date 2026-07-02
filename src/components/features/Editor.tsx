@@ -11,7 +11,7 @@ interface EditorProps {
   errors?: string[];          
 }
 
-export default function Editor({ value, onChange, format, errors }: EditorProps)  {
+export default function Editor({ value, onChange, format }: EditorProps)  {
 
   return (
     <CodeMirror
