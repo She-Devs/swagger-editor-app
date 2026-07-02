@@ -26,7 +26,6 @@ export default defineConfig([
       "@typescript-eslint/no-unused-vars": "error",
       "@stylistic/eol-last": ["error", "always"],
       "no-console": "error",
-      "react-hooks/set-state-in-effect": "off",
     },
   },
 ]);
