@@ -1,42 +1,39 @@
+'use client';
+
 import { Box, ScrollArea } from '@mantine/core';
-import Editor from '@/components/features/Editor';
-import { useEffect, useState } from 'react';
-import parseAndDetectFormat, { DataFormat } from '@/utils/parseAndDetectFormat';
-import { DATA_FORMATS } from '@/constants';
-import validateSchema, { ValidationResult } from '@/utils/validateSchema';
+import Editor from '@/components/features/Editor/Editor';
+import { useEffect } from 'react';
+import { useEditorStore } from '@/store/useEditorStore';
+import { FormatSwitcher } from '../features/FormatSwitcher/FormatSwitcher';
 
 export function EditorPanel() {
-  const [schema, setSchema] = useState(''); 
-  const [format, setFormat] = useState<DataFormat>(DATA_FORMATS.YAML);
-  const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+  const schema = useEditorStore((state) => state.schema);
+  const format = useEditorStore((state) => state.format);
+  const errors = useEditorStore((state) => state.errors);
+  const setSchema = useEditorStore((state) => state.setSchema);
+  const validate = useEditorStore((state) => state.validate);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      validateSchema(schema).then((result) => {
-        setValidationResult(result);
-      });
+      validate();
     }, 500);
 
     return () => clearTimeout(timer);
-  },  [schema]);
+  }, [schema, validate]);
 
-  function handleChangeEditor (newText: string) {
+  function handleChangeEditor(newText: string) {
     setSchema(newText);
-    const newFormatResult = parseAndDetectFormat(newText);
-
-    if (newFormatResult) {
-      setFormat(newFormatResult.format);
-    }
   }
 
   return (
     <ScrollArea h="100%" type="auto" >
+      <FormatSwitcher />
       <Box p={5} style={{ minHeight: 0 }}>
         <Editor 
           value={schema}
           onChange={handleChangeEditor}
           format={format}
-          errors={validationResult?.errors ?? []}
+          errors={errors}
         />
       </Box>
     </ScrollArea>
