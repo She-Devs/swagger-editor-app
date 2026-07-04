@@ -19,6 +19,9 @@
     "emptyState": "No API definition provided",
     "errorHeader": "Error"
   },
+  "SaveSchemaButton": {
+    "title": "Save"
+  },
   "Auth": {
     "signIn": {
       "title": "Sign In",

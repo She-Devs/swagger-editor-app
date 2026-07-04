@@ -20,6 +20,9 @@
     "emptyState": "Введите OpenAPI схему",
     "errorHeader": "Обнаружены ошибки"
   },
+  "SaveSchemaButton": {
+    "title": "Сохранить"
+  },
   "Auth": {
     "signIn": {
       "title": "Вход",
