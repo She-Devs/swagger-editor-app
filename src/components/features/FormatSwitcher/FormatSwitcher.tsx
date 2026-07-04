@@ -32,7 +32,7 @@ export function FormatSwitcher() {
   return (
     <Group className={classes.wrapper}>
       {showError && !isValid && !isSchemaEmpty && (
-        <Box className={classes.error}>
+        <Box>
           <span>⚠️</span> {t('invalidSchemaError')}
         </Box>
       )}
