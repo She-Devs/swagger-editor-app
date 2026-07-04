@@ -3,13 +3,13 @@ import { z } from 'zod';
 const passwordRegex = /^(?=.*[\p{L}])(?=.*\d)(?=.*[^\p{L}\d\s]).{8,}$/u;
 
 export const signInSchema = z.object({
-  email: z.string().min(1, 'emailRequired').email('emailInvalid'),
+  email: z.string().min(1, 'emailRequired').trim().email('emailInvalid'),
   password: z.string().min(1, 'passwordRequired'),
 });
 
 export const signUpSchema = z
   .object({
-    email: z.string().min(1, 'emailRequired').email('emailInvalid'),
+    email: z.string().min(1, 'emailRequired').trim().email('emailInvalid'),
     password: z
       .string()
       .min(1, 'passwordRequired')

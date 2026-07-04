@@ -42,7 +42,11 @@ async function updateSession(request: NextRequest) {
 
   if (!user && request.nextUrl.pathname.includes('/history')) {
     url.pathname = `/${currentLocale}/sign-in`;
-    return NextResponse.redirect(url);
+    const redirect = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirect.cookies.set(cookie);
+    });
+    return redirect;
   }
 
   if (user && (
@@ -50,7 +54,11 @@ async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.includes('/sign-up')
   )) {
     url.pathname = `/${currentLocale}/`;
-    return NextResponse.redirect(url);
+    const redirect = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) => {
+      redirect.cookies.set(cookie);
+    });
+    return redirect;
   }
   return supabaseResponse;
 }
@@ -61,8 +69,8 @@ export default async function proxy(request: NextRequest) {
     return supabaseResponse;
   }
   const intlResponse = intlMiddleware(request);
-  supabaseResponse.cookies.getAll().forEach((cookie) => {
-    intlResponse.cookies.set(cookie.name, cookie.value);
+  supabaseResponse.cookies.getAll().forEach(({ name, value, ...options }) => {
+    intlResponse.cookies.set(name, value, options);
   });
   return intlResponse;
 }
