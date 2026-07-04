@@ -12,7 +12,7 @@ export function FormatSwitcher() {
   const convert = useEditorStore((state) => state.convert);
   const schema = useEditorStore((state) => state.schema);
   const isValid = useEditorStore((state) => state.isValid);
-  const t = useTranslations('formatSwitcher');
+  const t = useTranslations('FormatSwitcher');
   
   const [showError, setShowError] = useState(false);
   

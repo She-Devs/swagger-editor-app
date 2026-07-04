@@ -10,9 +10,13 @@
   "About": {
     "title": "О приложении"
   },
-  "formatSwitcher": {
+  "FormatSwitcher": {
     "switchToYaml": "Переключить на YAML",
     "switchToJson": "Переключить на JSON",
     "invalidSchemaError": "Схема невалидна, конвертация невозможна"
+  },
+  "Validation": {
+    "emptyState": "Введите OpenAPI схему",
+    "errorHeader": "Обнаружены ошибки"
   }
 }

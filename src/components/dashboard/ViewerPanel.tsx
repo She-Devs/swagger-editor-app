@@ -1,14 +1,11 @@
 import { Box, ScrollArea } from '@mantine/core';
+import { ValidationErrors } from '../features/ValidationErrors/ValidationErrors';
 
-interface ViewerPanelProps {
-  children?: React.ReactNode;
-}
-
-export function ViewerPanel({ children }: ViewerPanelProps) {
+export function ViewerPanel() {
   return (
     <ScrollArea h="100%" type="auto">
       <Box p={12} style={{ minHeight: 0 }}>
-        {children || 'Viewer Panel Content'}
+        <ValidationErrors/>
       </Box>
     </ScrollArea>
   );

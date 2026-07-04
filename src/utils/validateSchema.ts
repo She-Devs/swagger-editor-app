@@ -16,7 +16,7 @@ export default async function validateSchema(text: string): Promise<ValidationRe
   if (!parseResult) {
     return {
       isValid: false,
-      errors: ['Не удалось распарсить схему'],
+      errors: ['Failed to parse schema. Check JSON or YAML syntax.'],
       data: null,
       format: null,
     };
@@ -27,7 +27,7 @@ export default async function validateSchema(text: string): Promise<ValidationRe
   if (!data || typeof data !== 'object') {
     return {
       isValid: false,
-      errors: ['Схема должна быть объектом'],
+      errors: ['Schema must be an object'],
       data: null,
       format,
     };
@@ -42,7 +42,7 @@ export default async function validateSchema(text: string): Promise<ValidationRe
       format,
     };
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Ошибка валидации OpenAPI схемы';
+    const message = error instanceof Error ? error.message : 'OpenAPI schema validation error';
     return {
       isValid: false,
       errors: [message],
