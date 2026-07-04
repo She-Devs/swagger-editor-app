@@ -36,7 +36,6 @@ vi.mock('@mantine/core', async () => {
     Button: ({
       children,
       onClick,
-      component: C,
       href,
       ...rest
     }: {

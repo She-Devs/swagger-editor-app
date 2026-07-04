@@ -47,7 +47,7 @@ export function SignInForm() {
       }
 
       router.push('/');
-    } catch (err) {
+    } catch {
       setError(tErrors('authFailed'));
     } finally {
       setIsLoading(false);
@@ -73,7 +73,7 @@ export function SignInForm() {
 
           <TextInput
             label={t('email')}
-            placeholder="your@email.com"
+            placeholder={t('emailPlaceholder')}
             {...register('email')}
             error={errors.email && tErrors(errors.email.message as string)}
             disabled={isLoading}
@@ -81,7 +81,7 @@ export function SignInForm() {
 
           <PasswordInput
             label={t('password')}
-            placeholder="Your password"
+            placeholder={t('passwordPlaceholder')}
             {...register('password')}
             error={errors.password && tErrors(errors.password.message as string)}
             disabled={isLoading}

@@ -15,7 +15,9 @@
       "title": "Sign In",
       "subtitle": "Welcome back! Please enter your details.",
       "email": "Email",
+      "emailPlaceholder": "your@email.com",
       "password": "Password",
+      "passwordPlaceholder": "Your password",
       "submit": "Sign In",
       "noAccount": "Don't have an account?",
       "signUpLink": "Sign up"
@@ -24,8 +26,11 @@
       "title": "Sign Up",
       "subtitle": "Create a new account to get started.",
       "email": "Email",
+      "emailPlaceholder": "your@email.com",
       "password": "Password",
+      "passwordPlaceholder": "Your password",
       "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
       "submit": "Sign Up",
       "haveAccount": "Already have an account?",
       "signInLink": "Sign in"

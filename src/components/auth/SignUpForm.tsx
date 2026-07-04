@@ -50,7 +50,7 @@ export function SignUpForm() {
       }
 
       router.push('/');
-    } catch (err) {
+    } catch {
       setError(tErrors('authFailed'));
     } finally {
       setIsLoading(false);
@@ -76,7 +76,7 @@ export function SignUpForm() {
 
           <TextInput
             label={t('email')}
-            placeholder="your@email.com"
+            placeholder={t('emailPlaceholder')}
             {...register('email')}
             error={errors.email && tErrors(errors.email.message as string)}
             disabled={isLoading}
@@ -84,7 +84,7 @@ export function SignUpForm() {
 
           <PasswordInput
             label={t('password')}
-            placeholder="Your password"
+            placeholder={t('passwordPlaceholder')}
             {...register('password')}
             error={errors.password && tErrors(errors.password.message as string)}
             disabled={isLoading}
@@ -92,7 +92,7 @@ export function SignUpForm() {
 
           <PasswordInput
             label={t('confirmPassword')}
-            placeholder="Confirm your password"
+            placeholder={t('confirmPasswordPlaceholder')}
             {...register('confirmPassword')}
             error={errors.confirmPassword && tErrors(errors.confirmPassword.message as string)}
             disabled={isLoading}

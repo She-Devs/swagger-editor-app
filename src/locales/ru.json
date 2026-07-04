@@ -15,7 +15,9 @@
       "title": "Вход",
       "subtitle": "Добро пожаловать! Введите свои данные.",
       "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
       "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
       "submit": "Войти",
       "noAccount": "Нет учетной записи?",
       "signUpLink": "Зарегистрироваться"
@@ -24,8 +26,11 @@
       "title": "Регистрация",
       "subtitle": "Создайте новую учетную запись для начала работы.",
       "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
       "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
       "confirmPassword": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "Повторите пароль",
       "submit": "Зарегистрироваться",
       "haveAccount": "Уже есть учетная запись?",
       "signInLink": "Войти"
