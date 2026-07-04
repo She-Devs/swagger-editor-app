@@ -4,7 +4,7 @@ import {  MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-
+import { AuthProvider } from '@/components/providers/AuthProvider';
 
 export default async function RootLayout({
   children,
@@ -18,9 +18,11 @@ export default async function RootLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <MantineProvider theme={theme} defaultColorScheme="auto">
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
+        </AuthProvider>
       </MantineProvider>
     </NextIntlClientProvider>
    

@@ -6,13 +6,16 @@ import '@mantine/core/styles.css';
 import classes from './Header.module.css';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { LanguageToggle } from '@/components/ui/LanguageToggle';
-import { Link } from '@/i18n/navigation';
+import { Link, useRouter } from '@/i18n/navigation';
 import { LOGO } from '@/constants';
 import { useEffect, useState } from 'react';
+import { useAuthStore } from '@/store/authStore';
+import { createClient } from '@/lib/supabase/client';
 
 export function Header() {
   const t = useTranslations('Navigation');
-  const isAuth = true;
+  const router = useRouter();
+  const { user, isLoading } = useAuthStore();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -23,6 +26,15 @@ export function Header() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      return;
+    }
+    router.push('/');
+  };
 
   return (
     <Box component="header"  className={`${classes.header} ${scrolled ? classes.scrolled : ''}`}>
@@ -40,20 +52,25 @@ export function Header() {
         </Group>
         <Group gap="sm">
 
-          {!isAuth ? (
+          {!user && !isLoading ? (
             <>
-              <Button variant="default" className={classes.loginBtn}>
+              <Button component={Link} href="/sign-in" variant="default" className={classes.loginBtn}>
                 {t('sign-in')}
               </Button>
-              <Button className={classes.signupBtn}> {t('sign-up')}</Button></>    
-          ): (
+              <Button component={Link} href="/sign-up" className={classes.signupBtn}>
+                {t('sign-up')}
+              </Button>
+            </>    
+          ) : user ? (
             <>
-              <Button variant="default" className={classes.loginBtn}>
+              <Button component={Link} href="/history" variant="default" className={classes.loginBtn}>
                 {t('history')}
               </Button>
-              <Button className={classes.signupBtn}> {t('sign-out')}</Button>
+              <Button onClick={handleSignOut} className={classes.signupBtn}>
+                {t('sign-out')}
+              </Button>
             </>
-          )}
+          ) : null}
           
           <ThemeToggle />
           <LanguageToggle />

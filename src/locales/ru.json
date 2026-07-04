@@ -10,6 +10,7 @@
   "About": {
     "title": "О приложении"
   },
+
   "FormatSwitcher": {
     "switchToYaml": "Переключить на YAML",
     "switchToJson": "Переключить на JSON",
@@ -18,5 +19,43 @@
   "Validation": {
     "emptyState": "Введите OpenAPI схему",
     "errorHeader": "Обнаружены ошибки"
+  },
+  "Auth": {
+    "signIn": {
+      "title": "Вход",
+      "subtitle": "Добро пожаловать! Введите свои данные.",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
+      "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "submit": "Войти",
+      "noAccount": "Нет учетной записи?",
+      "signUpLink": "Зарегистрироваться"
+    },
+    "signUp": {
+      "title": "Регистрация",
+      "subtitle": "Создайте новую учетную запись для начала работы.",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
+      "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "Повторите пароль",
+      "submit": "Зарегистрироваться",
+      "haveAccount": "Уже есть учетная запись?",
+      "signInLink": "Войти"
+    },
+    "errors": {
+      "emailRequired": "Требуется электронная почта",
+      "emailInvalid": "Неверный формат электронной почты",
+      "passwordRequired": "Требуется пароль",
+      "passwordMin": "Пароль должен содержать не менее 8 символов",
+      "passwordWeak": "Пароль должен содержать хотя бы одну букву, одну цифру и один специальный символ",
+      "confirmPasswordRequired": "Пожалуйста, подтвердите пароль",
+      "passwordsMismatch": "Пароли не совпадают",
+      "authFailed": "Ошибка аутентификации. Пожалуйста, попробуйте еще раз.",
+      "userExists": "Пользователь с этой электронной почтой уже существует",
+      "invalidCredentials": "Неверный email или пароль"
+    }
   }
 }
