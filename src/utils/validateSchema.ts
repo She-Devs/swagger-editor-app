@@ -1,12 +1,12 @@
 import { DATA_FORMATS } from '@/constants';
 import SwaggerParser from '@apidevtools/swagger-parser';
-import type { OpenAPI } from 'openapi-types';
+import type { OpenAPI, OpenAPIV3 } from 'openapi-types';
 import parseAndDetectFormat from './parseAndDetectFormat';
 
 export interface ValidationResult {
   isValid: boolean;
   errors: string[];
-  data: unknown;
+  data: OpenAPIV3.Document | null;
   format: typeof DATA_FORMATS[keyof typeof DATA_FORMATS] | null;
 }
 
@@ -38,7 +38,7 @@ export default async function validateSchema(text: string): Promise<ValidationRe
     return {
       isValid: true,
       errors: [],
-      data: validated,
+      data: validated as OpenAPIV3.Document, 
       format,
     };
   } catch (error) {
