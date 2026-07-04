@@ -6,6 +6,7 @@ import { Box, Button, Group } from '@mantine/core';
 import { useTranslations } from 'next-intl';
 import {  useState } from 'react';
 import classes from './FormatSwitcher.module.css';
+import SaveSchemaButton from '../SaveSchemaButton/SaveSchemaButton';
 
 export function FormatSwitcher() {
   const format = useEditorStore((state) => state.format);
@@ -35,6 +36,7 @@ export function FormatSwitcher() {
           <span>⚠️</span> {t('invalidSchemaError')}
         </Box>
       )}
+     
       <Button    
         className={classes.switcher}
         onClick={handleConvert}
@@ -42,6 +44,7 @@ export function FormatSwitcher() {
       >
         {isYAML ? t('switchToJson') : t('switchToYaml')}
       </Button>   
+      <SaveSchemaButton />
     </Group>
   );
 }
