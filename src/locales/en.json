@@ -9,5 +9,10 @@
   },
   "About": {
     "title": "About this app"
+  },
+  "formatSwitcher": {
+    "switchToYaml": "Switch to YAML",
+    "switchToJson": "Switch to JSON",
+    "invalidSchemaError": "Schema is invalid, conversion impossible"
   }
 }

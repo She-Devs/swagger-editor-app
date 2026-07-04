@@ -9,5 +9,10 @@
   },
   "About": {
     "title": "О приложении"
+  },
+  "formatSwitcher": {
+    "switchToYaml": "Переключить на YAML",
+    "switchToJson": "Переключить на JSON",
+    "invalidSchemaError": "Схема невалидна, конвертация невозможна"
   }
 }
