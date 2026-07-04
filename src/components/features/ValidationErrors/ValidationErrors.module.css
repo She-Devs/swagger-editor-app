@@ -1,0 +1,25 @@
+.errorsList {
+  gap: 2px;
+  padding: 4px 8px;
+  background: rgba(250, 82, 82, 0.03);
+  border-radius: 6px;
+  border-left: 2px solid rgba(250, 82, 82, 0.2);
+}
+
+.errorHeader {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fa5252;
+}
+
+.errorItem {
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: all 0.15s ease;
+}
+
+.errorText {
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.75;
+}
