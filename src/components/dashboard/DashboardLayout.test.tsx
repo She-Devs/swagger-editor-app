@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import { MantineProvider } from '@mantine/core';
 import { DashboardLayout } from './DashboardLayout';
+import { NextIntlClientProvider } from 'next-intl';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
@@ -21,9 +22,11 @@ global.ResizeObserver = class ResizeObserver {
 describe('DashboardLayout', () => {
   it('should render panels correctly', () => {
     const { container } = render(
-      <MantineProvider>
-        <DashboardLayout />
-      </MantineProvider>
+      <NextIntlClientProvider locale="en" messages={{}}>
+        <MantineProvider>
+          <DashboardLayout />
+        </MantineProvider>
+      </NextIntlClientProvider>
     );
 
     const splitter = container.querySelector('.mantine-Splitter-root');
