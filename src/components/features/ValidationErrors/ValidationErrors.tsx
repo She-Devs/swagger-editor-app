@@ -27,8 +27,8 @@ export function ValidationErrors() {
         <Text className={classes.errorHeader }>
           {t('errorHeader')}
         </Text>  
-        {errors.map((error, index) => (
-          <div key={index} className={classes.errorItem}>
+        {errors.map((error) => (
+          <div key={error} className={classes.errorItem}>
             <Text size="xs" c="red" className={classes.errorText}>
               {error}
             </Text>
