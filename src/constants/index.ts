@@ -9,3 +9,8 @@ export const THEME_ICONS = {
   dark: '🌙',
   light: '☀️',
 } as const;
+
+export const DATA_FORMATS = {
+  JSON: 'json',
+  YAML: 'yaml',
+} as const;

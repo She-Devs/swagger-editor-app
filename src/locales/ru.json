@@ -10,6 +10,19 @@
   "About": {
     "title": "О приложении"
   },
+
+  "FormatSwitcher": {
+    "switchToYaml": "Переключить на YAML",
+    "switchToJson": "Переключить на JSON",
+    "invalidSchemaError": "Схема невалидна, конвертация невозможна"
+  },
+  "Validation": {
+    "emptyState": "Введите OpenAPI схему",
+    "errorHeader": "Обнаружены ошибки"
+  },
+  "SaveSchemaButton": {
+    "title": "Сохранить"
+  },
   "Auth": {
     "signIn": {
       "title": "Вход",

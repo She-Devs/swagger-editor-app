@@ -10,6 +10,18 @@
   "About": {
     "title": "About this app"
   },
+  "FormatSwitcher": {
+    "switchToYaml": "Switch to YAML",
+    "switchToJson": "Switch to JSON",
+    "invalidSchemaError": "Schema is invalid, conversion impossible"
+  },
+  "Validation": {
+    "emptyState": "No API definition provided",
+    "errorHeader": "Error"
+  },
+  "SaveSchemaButton": {
+    "title": "Save"
+  },
   "Auth": {
     "signIn": {
       "title": "Sign In",
