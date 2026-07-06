@@ -5,6 +5,7 @@ import { DataFormat } from '@/utils/parseAndDetectFormat';
 import parseAndDetectFormat from '@/utils/parseAndDetectFormat';
 import validateSchema from '@/utils/validateSchema';
 import { convertSchema } from '@/utils/convertSchema';
+import { createClient } from '@/lib/supabase/client';
 
 interface EditorStore {
   schema: string;
@@ -93,18 +94,44 @@ export const useEditorStore = create<EditorStore>()(
       },
 
       saveSchema: async () => {
-        const {isValid } = get();
+        const { schema, format, isValid } = get();
         
         if (!isValid) {
           return;
         }
-
+      
+        if (!schema || schema.trim().length === 0) {         
+          return;
+        }
+      
         set({ isSaving: true });
         
         try {
-          // TODO: Feature 3 - Saving schema (для auth users)
+          const supabase = createClient();
+          const { data: { user } } = await supabase.auth.getUser();
           
-          await new Promise(resolve => setTimeout(resolve, 500));
+          if (!user) {         
+            set({ isSaving: false });
+            return;
+          }
+      
+          const { error } = await supabase
+            .from('schemas')
+            .upsert({
+              user_id: user.id,
+              content: schema,
+              format: format,
+              updated_at: new Date().toISOString(),
+            }, {
+              onConflict: 'user_id', 
+            });
+      
+          if (error) {       
+            throw new Error(error.message);
+          }
+      
+        } catch (error) {         
+          throw error;
         } finally {
           set({ isSaving: false });
         }
@@ -114,20 +141,32 @@ export const useEditorStore = create<EditorStore>()(
         set({ isLoading: true });
         
         try {
-          // TODO: Feature 3 - Restore schema after login
-           
-          // Временные данные для теста
-          const data = {
-            schema: 'openapi: 3.0.0\ninfo:\n  title: Test API\n  version: 1.0.0\npaths:\n  /users:\n    get:\n      summary: Get users\n      responses:\n        "200":\n          description: Success',
-            format: DATA_FORMATS.YAML,
-          };
+          const supabase = createClient(); 
+          const { data: { user } } = await supabase.auth.getUser();
           
-          set({
-            schema: data.schema,
-            format: data.format,
-          });
-          
-          await get().validate();
+          if (!user) {
+            set({ isLoading: false });
+            return;
+          }
+      
+          const { data, error } = await supabase
+            .from('schemas')
+            .select('content, format')
+            .eq('user_id', user.id)
+            .single();
+      
+          if (error && error.code !== 'PGRST116') {
+            throw error;
+          }
+      
+          if (data) {
+            set({
+              schema: data.content,
+              format: data.format || DATA_FORMATS.YAML,
+            });
+            await get().validate();
+          }
+        } catch {
         } finally {
           set({ isLoading: false });
         }
