@@ -108,6 +108,12 @@ export function EndpointItem({ method, path, operation }: EndpointItemProps) {
                         <Box key={ct}>
                           <Text size="xs" fw={500} mb={4}>{ct}</Text>
                           <SchemaPreview schema={mediaType?.schema} />
+                          {Object.entries(mediaType?.examples ?? {}).map(([name, example]) => (
+                            <Box key={name} mt={4}>
+                              <Text size="xs" fw={500}>{name}</Text>
+                              <SchemaPreview schema={example?.value as Record<string, unknown>} />
+                            </Box>
+                          ))}
                         </Box>
                       ))}
                     </Stack>

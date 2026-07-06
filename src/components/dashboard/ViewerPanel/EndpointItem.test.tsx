@@ -121,4 +121,26 @@ describe('EndpointItem', () => {
     renderWithMantine(<EndpointItem method="unknown" path="/test" operation={{ responses: {} }} />);
     expect(screen.getByText('unknown')).toBeTruthy();
   });
+
+  it('shows request body examples when present', () => {
+    const op: OAOperation = {
+      requestBody: {
+        content: {
+          'application/json': {
+            schema: { type: 'object' },
+            examples: {
+              SamplePayload: { value: { username: 'alice' } },
+            },
+          },
+        },
+      },
+      responses: {},
+    };
+    renderWithMantine(<EndpointItem method="post" path="/test" operation={op} />);
+    fireEvent.click(screen.getByRole('button'));
+    const rbBtn = screen.getByText('Request Body').closest('button')!;
+    fireEvent.click(rbBtn);
+    expect(screen.getByText('SamplePayload')).toBeTruthy();
+    expect(screen.getByText(/"username": "alice"/, { exact: false })).toBeTruthy();
+  });
 });

@@ -22,7 +22,10 @@ export type OAOperation = {
   requestBody?: {
     description?: string;
     required?: boolean;
-    content?: Record<string, { schema?: Record<string, unknown> }>;
+    content?: Record<string, {
+      schema?: Record<string, unknown>;
+      examples?: Record<string, { value?: unknown }>;
+    }>;
   };
   responses?: Record<string, OAResponse>;
 };
