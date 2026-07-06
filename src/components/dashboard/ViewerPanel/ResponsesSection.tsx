@@ -19,6 +19,12 @@ export function ResponsesSection({ responses }: { responses: Record<string, OARe
               <Box key={ct}>
                 <Text size="xs" fw={500} mb={4}>{ct}</Text>
                 <SchemaPreview schema={response.content?.[ct]?.schema} />
+                {Object.entries(response.content?.[ct]?.examples ?? {}).map(([name, example]) => (
+                  <Box key={name}>
+                    <Text size="xs" fw={500}>{name}</Text>
+                    <SchemaPreview schema={example?.value as Record<string, unknown>} />
+                  </Box>
+                ))}
               </Box>
             ))}
           </Paper>

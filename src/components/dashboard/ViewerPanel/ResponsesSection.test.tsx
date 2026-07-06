@@ -60,4 +60,39 @@ describe('ResponsesSection', () => {
     renderWithMantine(<ResponsesSection responses={responses} />);
     expect(screen.getByText('200')).toBeTruthy();
   });
+
+  it('renders examples with name and value when examples are present', () => {
+    const responses: Record<string, OAResponse> = {
+      '200': {
+        description: 'OK',
+        content: {
+          'application/json': {
+            examples: {
+              ExampleOne: { value: { id: 1, name: 'Alice' } },
+            },
+          },
+        },
+      },
+    };
+    renderWithMantine(<ResponsesSection responses={responses} />);
+    expect(screen.getByText('ExampleOne')).toBeTruthy();
+    expect(screen.getByText(/"id": 1/, { exact: false })).toBeTruthy();
+  });
+
+  it('renders SchemaPreview with — for example with no value', () => {
+    const responses: Record<string, OAResponse> = {
+      '200': {
+        content: {
+          'application/json': {
+            examples: {
+              Empty: {},
+            },
+          },
+        },
+      },
+    };
+    renderWithMantine(<ResponsesSection responses={responses} />);
+    expect(screen.getByText('Empty')).toBeTruthy();
+    expect(screen.getAllByText('—').length).toBeGreaterThan(0);
+  });
 });

@@ -8,7 +8,10 @@ export type OAParameter = {
 
 export type OAResponse = {
   description?: string;
-  content?: Record<string, { schema?: Record<string, unknown> }>;
+  content?: Record<string, { 
+    schema?: Record<string, unknown>;
+    examples?: Record<string, { value?: unknown }>;
+  }>;
 };
 
 export type OAOperation = {

@@ -5,7 +5,7 @@ import { Splitter } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
 import { EditorPanel } from './EditorPanel';
-import { ViewerPanel } from './ViewerPanel';
+import { ViewerPanel } from './ViewerPanel/ViewerPanel';
 import { LoaderComponent } from '../loader/Loader';
 
 export function DashboardLayout() {
