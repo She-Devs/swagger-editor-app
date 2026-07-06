@@ -11,7 +11,7 @@ vi.mock('@/store/useEditorStore', () => ({
   useEditorStore: (selector: (state: StoreState) => unknown) => selector(mockStoreState),
 }));
 
-vi.mock('../features/ValidationErrors/ValidationErrors', () => ({
+vi.mock('../../features/ValidationErrors/ValidationErrors', () => ({
   ValidationErrors: () => <div data-testid="validation-errors" />,
 }));
 
