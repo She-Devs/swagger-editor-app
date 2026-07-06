@@ -55,3 +55,5 @@ CREATE TRIGGER set_updated_at
     BEFORE UPDATE ON public.schemas
     FOR EACH ROW
     EXECUTE FUNCTION public.handle_updated_at();
+
+CREATE UNIQUE INDEX IF NOT EXISTS schemas_user_id_idx ON public.schemas (user_id);
