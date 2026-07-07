@@ -71,6 +71,12 @@
       "title": "Rolling Scopes School",
       "description": "This project was created as part of the Rolling Scopes School React Course, an educational program focused on modern front-end development."
     },
+    "highlights": {
+      "handsOnLearning": "Hands-on Learning",
+      "realProjects": "Real Projects",
+      "modernStack": "Modern Stack",
+      "community": "Community"
+},
     "sections": {
       "technologies": "Technologies Used",
       "team": "Meet the Team",

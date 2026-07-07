@@ -119,15 +119,15 @@ export default function AboutContent() {
               </Text>
 
               <Group justify="center" gap="md">
-                {HIGHLIGHTS_ABOUT.map(({ label, icon: Icon }) => (
+                {HIGHLIGHTS_ABOUT.map(({ key, icon: Icon }) => (
                   <Badge
-                    key={label}
+                    key={key}
                     size="lg"
                     radius="xl"
                     variant="light"
                     leftSection={<Icon size={BADGE_ICON_SIZE} />}
                   >
-                    {label}
+                    {t(`highlights.${key}`)}
                   </Badge>
                 ))}
               </Group>

@@ -31,19 +31,19 @@ export const MENTORS = [
 
 export const HIGHLIGHTS_ABOUT = [
   {
-    label: 'Hands-on Learning',
+    key: 'handsOnLearning',
     icon: IconSchool,
   },
   {
-    label: 'Real Projects',
+    key: 'realProjects',
     icon: IconUsers,
   },
   {
-    label: 'Modern Stack',
+    key: 'modernStack',
     icon: IconCode,
   },
   {
-    label: 'Community',
+    key: 'community',
     icon: IconWorld,
   },
 ] as const;

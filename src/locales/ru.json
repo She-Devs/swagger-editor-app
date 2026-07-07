@@ -72,6 +72,12 @@
       "title": "Rolling Scopes School",
       "description": "Этот проект был разработан в рамках курса Rolling Scopes School React Course — образовательной программы, посвящённой современным технологиям фронтенд-разработки."
     },
+    "highlights": {
+      "handsOnLearning": "Практическое обучение",
+      "realProjects": "Реальные проекты",
+      "modernStack": "Современный стек",
+      "community": "Сообщество"
+},
     "sections": {
       "technologies": "Используемые технологии",
       "team": "Наша команда",
