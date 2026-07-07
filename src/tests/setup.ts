@@ -4,7 +4,7 @@ import { afterEach, vi } from 'vitest';
 
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: (query: string) => ({
+  value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
     media: query,
     onchange: null,
@@ -13,8 +13,14 @@ Object.defineProperty(window, 'matchMedia', {
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
-  }),
+  })),
 });
+
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};
 
 vi.spyOn(console, 'error').mockImplementation(() => {});
 vi.spyOn(console, 'log').mockImplementation(() => {});
