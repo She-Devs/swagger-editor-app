@@ -37,6 +37,7 @@ export function EndpointItem({ method, path, operation }: EndpointItemProps) {
         onClick={() => setOpen((v) => !v)}
         style={{ width: '100%' }}
         p="sm"
+        aria-expanded={open}
       >
         <Group justify="space-between" wrap="nowrap">
           <Group gap="sm" wrap="nowrap">
