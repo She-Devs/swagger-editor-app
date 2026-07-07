@@ -4,6 +4,7 @@ import { IconSparkles } from '@tabler/icons-react';
 export function SectionDivider() {
   return (
     <Box
+      my="xl"
       display="flex"
       style={{
         alignItems: 'center',

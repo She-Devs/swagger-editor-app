@@ -1,61 +1,78 @@
 'use client';
 
-import { Card, Avatar, Text, Group, Button, Stack } from '@mantine/core';
+import { Avatar, Button, Card, Stack, Text } from '@mantine/core';
+import { IconBrandGithub } from '@tabler/icons-react';
+import classes from './TeamCard.module.css';
 
 type Props = {
   name: string;
   role: string;
   github: string;
-  avatar?: string;
 };
 
-export function TeamCard({ name, role, github, avatar }: Props) {
-  const trimmedName = name.trim();
-  const firstLetter = trimmedName ? trimmedName[0].toUpperCase() : '?';
+const GITHUB_BASE_URL = 'https://github.com';
+
+const getGithubAvatarUrl = (username: string) =>
+  `${GITHUB_BASE_URL}/${username}.png`;
+
+const getGithubProfileUrl = (username: string) =>
+  `${GITHUB_BASE_URL}/${username}`;
+
+export function TeamCard({ name, role, github }: Props) {
+  const firstLetter = name.trim()[0]?.toUpperCase() ?? '?';
 
   return (
     <Card
-      radius="lg"
-      p="lg"
-      shadow="sm"
+      radius="xl"
+      p="xl"
+      shadow="md"
       withBorder
-      style={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
+      className={classes.card}
     >
-      <Group align="flex-start">
+      <Stack
+        align="center"
+        gap="md"
+        className={classes.content}
+      >
         <Avatar
-          src={avatar}
-          radius="xl"
-          size="lg"
-          color="gray"
+          src={getGithubAvatarUrl(github)}
+          size={120}
+          radius="50%"
+          className={classes.avatar}
         >
           {firstLetter}
         </Avatar>
 
-        <Stack gap={0} style={{ flex: 1 }}>
-          <Text fw={600} lineClamp={1}>
+        <Stack gap={4} align="center">
+          <Text
+            fw={800}
+            size="lg"
+            ta="center"
+            className={classes.name}
+          >
             {name}
           </Text>
 
-          <Text size="sm" c="dimmed" lineClamp={2}>
+          <Text
+            size="sm"
+            ta="center"
+            className={classes.role}
+          >
             {role}
           </Text>
         </Stack>
-      </Group>
+      </Stack>
 
       <Button
         component="a"
-        href={github}
+        href={getGithubProfileUrl(github)}
         target="_blank"
         rel="noopener noreferrer"
-        variant="light"
-        color="gray"
+        leftSection={<IconBrandGithub size={18} />}
+        radius="xl"
         fullWidth
-        mt="auto"
-        aria-label={`Open ${name} GitHub profile`}
+        mt="xl"
+        aria-label={`Open ${name}'s GitHub profile`}
       >
         GitHub
       </Button>
