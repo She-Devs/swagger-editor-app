@@ -41,7 +41,7 @@ async function updateSession(request: NextRequest) {
   const currentLocale = ['en', 'ru'].includes(segments[1]) ? segments[1] : 'en';
 
   if (!user && request.nextUrl.pathname.includes('/history')) {
-    url.pathname = `/${currentLocale}/sign-in`;
+    url.pathname = `/${currentLocale}/`;
     const redirect = NextResponse.redirect(url);
     supabaseResponse.cookies.getAll().forEach((cookie) => {
       redirect.cookies.set(cookie);
