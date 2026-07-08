@@ -84,7 +84,6 @@ describe('supabase server client', () => {
       throw new Error('read only');
     });
     mockCreateServerClient.mockImplementation((_url, _key, opts) => {
-      // should not throw
       opts.cookies.setAll([{ name: 'tok', value: 'val', options: {} }]);
       return {};
     });
