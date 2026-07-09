@@ -17,7 +17,6 @@
 }
 
 [data-mantine-color-scheme="dark"] .header {
-  background-color: rgba(var(--mantine-color-body-rgb), 0.8);
   border-bottom-color: var(--mantine-color-gray-8);
 }
 
