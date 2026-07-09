@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { DATA_FORMATS } from '@/constants';
+import { OpenAPI } from 'openapi-types';
 import { DataFormat } from '@/utils/parseAndDetectFormat';
 import parseAndDetectFormat from '@/utils/parseAndDetectFormat';
 import validateSchema from '@/utils/validateSchema';
@@ -12,7 +13,7 @@ interface EditorStore {
   format: DataFormat;
   errors: string[];
   isValid: boolean;
-  validatedData: unknown;
+  validatedData: OpenAPI.Document | null;
   isLoading: boolean;
   isSaving: boolean;
   
