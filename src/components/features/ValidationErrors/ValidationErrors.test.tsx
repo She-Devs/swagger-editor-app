@@ -8,11 +8,6 @@ interface EditorState {
   errors: string[];
 }
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
-
 let mockState: EditorState = {
   schema: 'openapi: 3.0.0',
   errors: [],

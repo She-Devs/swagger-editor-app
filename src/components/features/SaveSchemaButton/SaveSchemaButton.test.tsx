@@ -5,18 +5,12 @@ import SaveSchemaButton from './SaveSchemaButton';
 interface AuthState {
   user: { id: string; email: string } | null;
 }
-
 interface EditorState {
   schema: string;
   isValid: boolean;
   isSaving: boolean;
   saveSchema: () => void;
 }
-
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
 
 const mockSaveSchema = vi.fn();
 

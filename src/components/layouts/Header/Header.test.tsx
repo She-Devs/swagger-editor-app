@@ -3,11 +3,6 @@ import { render } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { Header } from './Header';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
-
 vi.mock('./Header.module.css', () => ({
   default: {
     header: 'header',

@@ -10,11 +10,6 @@ interface EditorState {
   convert: () => void;
 }
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
-
 vi.mock('@/store/useEditorStore', () => ({
   useEditorStore: (selector: (state: EditorState) => unknown) => {
     const state: EditorState = {

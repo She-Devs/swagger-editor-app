@@ -3,11 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { ThemeToggle } from './ThemeToggle';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
-
 vi.mock('@/components/layouts/Header/Header.module.css', () => ({
   default: {
     iconBtn: 'iconBtn',

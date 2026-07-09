@@ -3,11 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { LanguageToggle } from './LanguageToggle';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({ matches: false, addEventListener: () => {}, removeEventListener: () => {} }),
-});
-
 vi.mock('./../layouts/Header/Header.module.css', () => ({
   default: {
     iconBtn: 'iconBtn',
