@@ -2,6 +2,7 @@ import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isAuthApiError } from '@supabase/supabase-js';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -37,10 +38,7 @@ async function updateSession(request: NextRequest) {
   const { data, error } = await supabase.auth.getClaims();
   const user = data?.claims;
 
-  const isInvalidToken = error?.message?.includes('JWT') || 
-  error?.message?.includes('expired') ||
-  error?.message?.includes('invalid') ||
-  error?.message?.includes('token');
+  const isInvalidToken = isAuthApiError(error) && error.code === 'bad_jwt';
 
   const url = request.nextUrl.clone();
   const segments = request.nextUrl.pathname.split('/');
