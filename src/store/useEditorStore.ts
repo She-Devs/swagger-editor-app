@@ -89,30 +89,38 @@ export const useEditorStore = create<EditorStore>()(
           set({
             schema: converted,
             format: targetFormat,
-          });
-        
+          }); 
         }
       },
 
       saveSchema: async () => {
-        const { schema, format, isValid } = get();
+        const { schema } = get();
         
-        if (!isValid) {
-          return;
-        }
-      
-        if (!schema || schema.trim().length === 0) {         
+        if (!schema || schema.trim().length === 0) {
           return;
         }
       
         set({ isSaving: true });
         
         try {
+          const validation = await validateSchema(schema);
+          const format = validation.format || get().format;
+      
+          set({
+            errors: validation.errors,
+            isValid: validation.isValid,
+            validatedData: validation.data,
+            format,
+          });
+      
+          if (!validation.isValid) {  
+            return;
+          }
+      
           const supabase = createClient();
           const { data: { user } } = await supabase.auth.getUser();
-          
-          if (!user) {         
-            set({ isSaving: false });
+      
+          if (!user) {
             return;
           }
       
@@ -124,11 +132,11 @@ export const useEditorStore = create<EditorStore>()(
               format: format,
               updated_at: new Date().toISOString(),
             }, {
-              onConflict: 'user_id', 
+              onConflict: 'user_id',
             });
       
-          if (error) {       
-            throw new Error(error.message);
+          if (error) {
+            return;
           }
       
         } catch (error) {         
@@ -150,24 +158,35 @@ export const useEditorStore = create<EditorStore>()(
             return;
           }
       
+          const requestedUserId = user.id;
+
           const { data, error } = await supabase
             .from('schemas')
             .select('content, format')
-            .eq('user_id', user.id)
+            .eq('user_id', requestedUserId)
             .single();
       
           if (error && error.code !== 'PGRST116') {
             throw error;
           }
       
-          if (data) {
-            set({
-              schema: data.content,
-              format: data.format || DATA_FORMATS.YAML,
-            });
-            await get().validate();
+          if (!data) {
+            get().reset();
+            return;
           }
-        } catch {
+
+          const { data: { user: currentUser } } = await supabase.auth.getUser();
+          if (currentUser?.id !== requestedUserId) {
+            return;
+          }
+
+          set({
+            schema: data.content,
+            format: data.format || DATA_FORMATS.YAML,
+          });
+          await get().validate();
+        } catch (error) {
+          throw error;
         } finally {
           set({ isLoading: false });
         }

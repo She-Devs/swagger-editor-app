@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
 import { LanguageToggle } from './LanguageToggle';
 
-vi.mock('./../layouts/Header/Header.module.css', () => ({
+vi.mock('./../../layouts/Header/Header.module.css', () => ({
   default: {
     iconBtn: 'iconBtn',
   },
