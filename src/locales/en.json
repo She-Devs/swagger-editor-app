@@ -20,7 +20,11 @@
     "errorHeader": "Error"
   },
   "SaveSchemaButton": {
-    "title": "Save"
+    "title": "Save",
+    "successMessage": "Schema saved successfully",
+    "errorMessage": "Failed to save schema",
+    "emptySchemaError": "Schema is empty. Enter an OpenAPI specification",
+    "invalidSchemaError": "Schema is invalid. Fix errors before saving"
   },
   "Auth": {
     "signIn": {
