@@ -22,7 +22,7 @@ import { SchemaPreview } from './SchemaPreview';
 import { METHOD_COLORS } from './types';
 
 import type { OAOperation, OAParameter } from './types';
-import { TryItOutPanel } from '../TryItOutPanel';
+import { TryItOutPanel } from '../TryItOutPanel/TryItOutPanel';
 
 interface EndpointItemProps {
   method: string;
