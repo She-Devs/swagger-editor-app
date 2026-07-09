@@ -8,7 +8,7 @@ import validateSchema from '@/utils/validateSchema';
 import { convertSchema } from '@/utils/convertSchema';
 import { createClient } from '@/lib/supabase/client';
 
-interface EditorStore {
+export interface EditorStore {
   schema: string;
   format: DataFormat;
   errors: string[];
