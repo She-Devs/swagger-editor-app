@@ -7,23 +7,22 @@ interface CurlViewerProps {
   curl: string | null;
 }
 
-export function CurlViewer({
-  curl,
-}: CurlViewerProps) {
-  if (!curl) {
-    return null;
-  }
+export function CurlViewer({ curl }: CurlViewerProps) {
+  if (!curl) return null;
 
   return (
-    <Paper withBorder p="md">
-      <Stack gap="sm">
-        <Text fw={600}>
+    <Paper withBorder p="md" radius="md">
+      <Stack gap="xs">
+        <Text fw={600} size="sm">
           cURL
         </Text>
 
         <CodeHighlight
           code={curl}
           language="bash"
+          withCopyButton={true} // Uses Mantine's clean, built-in clipboard utility
+          copyLabel="Copy cURL command"
+          copiedLabel="Copied to clipboard!"
         />
       </Stack>
     </Paper>

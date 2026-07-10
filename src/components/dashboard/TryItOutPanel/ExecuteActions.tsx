@@ -1,11 +1,7 @@
 'use client';
 
 import { Button, Group } from '@mantine/core';
-import {
-  IconSend,
-  IconTerminal,
-  IconX,
-} from '@tabler/icons-react';
+import { IconSend, IconTerminal, IconX } from '@tabler/icons-react';
 
 interface ExecuteActionsProps {
   onExecute: () => void;
@@ -21,11 +17,12 @@ export function ExecuteActions({
   loading = false,
 }: ExecuteActionsProps) {
   return (
-    <Group>
+    <Group gap="sm">
       <Button
         onClick={onExecute}
         loading={loading}
-        leftSection={<IconSend size={14} />}
+        disabled={loading}
+        leftSection={!loading && <IconSend size={14} />}
       >
         Execute
       </Button>
@@ -33,6 +30,7 @@ export function ExecuteActions({
       <Button
         variant="light"
         onClick={onGenerateCurl}
+        disabled={loading} // Защита от случайного клика во время fetch
         leftSection={<IconTerminal size={14} />}
       >
         Generate cURL
@@ -42,6 +40,7 @@ export function ExecuteActions({
         variant="subtle"
         color="gray"
         onClick={onClear}
+        disabled={loading} // Защита от очистки стейта до завершения запроса
         leftSection={<IconX size={14} />}
       >
         Clear
