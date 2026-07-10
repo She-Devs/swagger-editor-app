@@ -1,68 +1,41 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Divider, Select, Stack, InputWrapper } from '@mantine/core';
+import { Divider, Stack, InputWrapper, TextInput } from '@mantine/core';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
-import { yaml } from '@codemirror/lang-yaml';
 
 interface RequestBodyEditorProps {
-  contentTypes: string[];
-  contentType: string | null;
   body: string;
-  onContentTypeChange: (type: string) => void;
   onBodyChange: (text: string) => void;
 }
 
-export function RequestBodyEditor({
-  contentTypes,
-  contentType,
-  body,
-  onContentTypeChange,
-  onBodyChange,
-}: RequestBodyEditorProps) {
-  
-  const extensions = useMemo(() => {
-    if (!contentType) return [];
-    if (contentType.includes('json')) return [json()];
-    if (contentType.includes('yaml') || contentType.includes('yml')) return [yaml()];
-    return [];
-  }, [contentType]);
-
+export function RequestBodyEditor({ body, onBodyChange }: RequestBodyEditorProps) {
   const validationError = useMemo(() => {
-    if (contentType?.includes('json') && body.trim()) {
-      try {
-        JSON.parse(body);
-        return null;
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          return error.message;
-        }
-        return 'Invalid JSON syntax';
+    if (!body.trim()) return null;
+    try {
+      JSON.parse(body);
+      return null;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return error.message;
       }
+      return 'Invalid JSON syntax';
     }
-    return null;
-  }, [body, contentType]);
+  }, [body]);
 
   return (
     <Stack gap="sm">
       <Divider />
-      
-      {contentTypes.length > 0 && (
-        <Select
-          label="Content-Type"
-          description="Select body payload formatting option"
-          value={contentType}
-          data={contentTypes}
-          onChange={(value) => {
-            if (value) onContentTypeChange(value);
-          }}
-        />
-      )}
+      <TextInput
+        label="Content-Type"
+        value="application/json"
+        disabled
+      />
 
       <InputWrapper
         label="Request Body"
-        description={`Provide payload matching spec configuration (${contentType || 'raw'})`}
+        description="Provide payload matching spec configuration (application/json)"
         error={validationError}
       >
         <div 
@@ -71,12 +44,13 @@ export function RequestBodyEditor({
             borderRadius: 'var(--mantine-radius-sm)',
             overflow: 'hidden',
             fontSize: '14px',
+            marginTop: 'calc(var(--mantine-spacing-xs) / 2)'
           }}
         >
           <CodeMirror
             value={body}
             height="250px"
-            extensions={extensions}
+            extensions={[json()]}
             onChange={(value) => onBodyChange(value)}
             theme="dark"
             basicSetup={{
