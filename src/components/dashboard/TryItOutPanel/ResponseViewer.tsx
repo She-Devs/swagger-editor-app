@@ -39,6 +39,7 @@ export function ResponseViewer({
     }
   }, [response]);
 
+
   const formattedHeaders = useMemo(() => {
     if (!response?.headers || Object.keys(response.headers).length === 0) return null;
   
@@ -56,6 +57,20 @@ export function ResponseViewer({
 
     return JSON.stringify(filtered, null, 2);
   }, [response]);
+
+  const friendlyErrorMessage = useMemo(() => {
+    if (response && response.status >= 400 && response.body) {
+      try {
+        const parsed: unknown = JSON.parse(response.body);
+        if (parsed && typeof parsed === 'object' && 'message' in parsed) {
+          return String((parsed as Record<string, unknown>).message);
+        }
+      } catch {
+      }
+    }
+    return null;
+  }, [response]);
+
   return (
     <Paper withBorder p="md" radius="md">
       <Text fw={600} mb="xs">
@@ -90,6 +105,17 @@ export function ResponseViewer({
               </Badge>
             </Group>
           </Stack>
+
+          {friendlyErrorMessage && (
+            <Stack gap={4}>
+              <Text size="sm" fw={600} c="red">Error Message</Text>
+              <Paper withBorder p="sm" bg="var(--mantine-color-red-light)" radius="sm">
+                <Text size="sm" c="red" fw={500}>
+                  {friendlyErrorMessage}
+                </Text>
+              </Paper>
+            </Stack>
+          )}
 
           {formattedHeaders && (
             <Stack gap={4}>
