@@ -136,3 +136,39 @@ export function getServerUrl(
 
   return data.servers?.[0]?.url;
 }
+
+
+interface BuildCurlParams {
+  url: string;
+  method: string;
+  headers: Record<string, string>;
+  body?: string;
+}
+
+export function buildCurl({
+  url,
+  method,
+  headers,
+  body,
+}: BuildCurlParams): string {
+  const lines = [
+    `curl -X ${method.toUpperCase()} '${url}'`,
+  ];
+
+  Object.entries(headers).forEach(([key, value]) => {
+    if (!value.trim()) return;
+
+    lines.push(`  -H '${key}: ${value}'`);
+  });
+
+  if (
+    body &&
+    body.trim() &&
+    method !== 'GET' &&
+    method !== 'HEAD'
+  ) {
+    lines.push(`  -d '${body}'`);
+  }
+
+  return lines.join(' \\\n');
+}
