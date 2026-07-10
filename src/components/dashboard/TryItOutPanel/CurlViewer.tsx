@@ -20,7 +20,7 @@ export function CurlViewer({ curl }: CurlViewerProps) {
         <CodeHighlight
           code={curl}
           language="bash"
-          withCopyButton={true} // Uses Mantine's clean, built-in clipboard utility
+          withCopyButton={true}
           copyLabel="Copy cURL command"
           copiedLabel="Copied to clipboard!"
         />
