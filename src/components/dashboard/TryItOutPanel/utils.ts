@@ -59,35 +59,33 @@ export function buildRequestUrl(
   path: string,
   pathParams: Record<string, string>,
   queryParams: Record<string, string>,
-  serverUrl?: string
+  serverUrl: string
 ): string {
-  let url = path;
+  const baseUrl = serverUrl.endsWith('/') ? serverUrl.slice(0, -1) : serverUrl;
+  let interpolatedPath = path;
 
-  Object.entries(pathParams).forEach(([key, value]) => {
-    url = url.replace(
-      `{${key}}`,
-      encodeURIComponent(value)
-    );
-  });
+  for (const [key, value] of Object.entries(pathParams)) {
+    interpolatedPath = interpolatedPath.replace(`{${key}}`, encodeURIComponent(value.trim()));
+  }
 
-  const query = new URLSearchParams();
+  const fullUrl = new URL(baseUrl + interpolatedPath);
+  const searchParams = new URLSearchParams();
 
-  Object.entries(queryParams).forEach(([key, value]) => {
-    if (value) {
-      query.set(key, value);
+  for (const [key, value] of Object.entries(queryParams)) {
+    if (value.trim()) {
+      value.split(',').forEach((item) => {
+        const trimmedItem = item.trim();
+        if (trimmedItem) {
+          searchParams.append(key, trimmedItem);
+        }
+      });
     }
-  });
-
-  if ([...query.keys()].length > 0) {
-    url += `?${query.toString()}`;
   }
 
-  if (serverUrl) {
-    return `${serverUrl.replace(/\/$/, '')}${url}`;
-  }
-
-  return url;
+  fullUrl.search = searchParams.toString();
+  return fullUrl.toString();
 }
+
 
 export interface ProxyRequest {
   url: string;
