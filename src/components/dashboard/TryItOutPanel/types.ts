@@ -4,6 +4,7 @@ export interface ResponseState {
   status: number;
   headers: Record<string, string>;
   body: string;
+  requestUrl: string;
 }
 
 export interface GroupedParameters {
