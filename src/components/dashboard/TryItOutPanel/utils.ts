@@ -123,16 +123,17 @@ export function buildRequest({
   };
 }
 
-export function getServerUrl(
-  schema: unknown
-): string | undefined {
+export function getServerUrl(schema: unknown): string {
+  if (!schema || typeof schema !== 'object') {
+    return '';
+  }
+
   const data = schema as {
     servers?: {
       url: string;
     }[];
   };
-
-  return data.servers?.[0]?.url;
+  return data.servers?.[0]?.url ?? '';
 }
 
 
