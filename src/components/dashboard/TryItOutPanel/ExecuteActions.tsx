@@ -30,7 +30,7 @@ export function ExecuteActions({
       <Button
         variant="light"
         onClick={onGenerateCurl}
-        disabled={loading} // Защита от случайного клика во время fetch
+        disabled={loading}
         leftSection={<IconTerminal size={14} />}
       >
         Generate cURL
@@ -40,7 +40,7 @@ export function ExecuteActions({
         variant="subtle"
         color="gray"
         onClick={onClear}
-        disabled={loading} // Защита от очистки стейта до завершения запроса
+        disabled={loading}
         leftSection={<IconX size={14} />}
       >
         Clear
