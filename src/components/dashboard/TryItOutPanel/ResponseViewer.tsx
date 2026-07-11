@@ -63,7 +63,14 @@ export function ResponseViewer({
       try {
         const parsed: unknown = JSON.parse(response.body);
         if (parsed && typeof parsed === 'object' && 'message' in parsed) {
-          return String((parsed as Record<string, unknown>).message);
+          const rawMessage = String((parsed as Record<string, unknown>).message);
+
+          if (rawMessage.includes('couldn\'t convert') && rawMessage.includes('java.lang.Long')) {
+            const invalidValue = rawMessage.match(/`([^`]+)`/)?.[1] || '';
+            return `Validation Error: The value "${invalidValue}" is invalid. This field requires a valid number (Integer/Long ID).`;
+          }
+
+          return rawMessage;
         }
       } catch {
       }
