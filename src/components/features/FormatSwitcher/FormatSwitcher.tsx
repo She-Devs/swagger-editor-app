@@ -14,9 +14,7 @@ export function FormatSwitcher() {
   const schema = useEditorStore((state) => state.schema);
   const isValid = useEditorStore((state) => state.isValid);
   const t = useTranslations('FormatSwitcher');
-  
   const [showError, setShowError] = useState(false);
-  
   const isSchemaEmpty = !schema || schema.trim().length === 0;
   const isYAML = format === DATA_FORMATS.YAML;
 
@@ -45,6 +43,7 @@ export function FormatSwitcher() {
         {isYAML ? t('switchToJson') : t('switchToYaml')}
       </Button>   
       <SaveSchemaButton />
+
     </Group>
   );
 }
