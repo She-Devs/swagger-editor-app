@@ -2,6 +2,7 @@
 
 import { OpenAPI } from 'openapi-types';
 import { Badge, Box, Code, Group, Stack, Text, Title } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { EndpointItem } from './EndpointItem';
 import { HTTP_METHODS } from '@/constants';
 import type { OAOperation } from './types';
@@ -11,8 +12,10 @@ interface EndpointListProps {
 }
 
 export function EndpointList({ schema }: EndpointListProps) {
+  const t = useTranslations('Viewer');
+
   if (!schema?.paths || Object.keys(schema.paths).length === 0) {
-    return <Text c="dimmed" ta="center" mt="xl">No endpoints found</Text>;
+    return <Text c="dimmed" ta="center" mt="xl">{t('noEndpoints')}</Text>;
   }
 
   const paths = Object.keys(schema.paths).sort();
@@ -20,10 +23,10 @@ export function EndpointList({ schema }: EndpointListProps) {
   return (
     <Stack gap="lg">
       <Title order={4} c="dimmed">
-        Endpoints ({paths.reduce((acc, p) => {
+        {t('endpointsTitle', { count: paths.reduce((acc, p) => {
           const item = schema.paths?.[p] as Record<string, unknown> | undefined;
           return acc + HTTP_METHODS.filter((m) => item?.[m]).length;
-        }, 0)})
+        }, 0) })}
       </Title>
 
       {paths.map((path) => {
@@ -34,9 +37,9 @@ export function EndpointList({ schema }: EndpointListProps) {
         return (
           <Box key={path}>
             <Group gap="xs" mb="xs">
-              <Text size="xs" c="dimmed" fw={600} tt="uppercase">Path</Text>
+              <Text size="xs" c="dimmed" fw={600} tt="uppercase">{t('path')}</Text>
               <Code fz="sm" fw={700}>{path}</Code>
-              <Badge size="xs" color="gray" variant="outline">{methods.length} method{methods.length !== 1 ? 's' : ''}</Badge>
+              <Badge size="xs" color="gray" variant="outline">{t('methodCount', { count: methods.length })}</Badge>
             </Group>
             <Stack gap={4}>
               {methods.map((method) => (

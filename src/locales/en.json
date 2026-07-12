@@ -78,5 +78,22 @@
     "requestSize": "Request size",
     "responseSize": "Response size",
     "error": "Error"
+  },
+  "Viewer": {
+    "noEndpoints": "No endpoints found",
+    "endpointsTitle": "Endpoints ({count})",
+    "path": "Path",
+    "methodCount": "{count, plural, one {# method} other {# methods}}",
+    "parameters": "Parameters",
+    "requestBody": "Request Body",
+    "required": "required",
+    "requiredColumn": "Required",
+    "responses": "Responses",
+    "none": "None",
+    "name": "Name",
+    "type": "Type",
+    "description": "Description",
+    "yes": "yes",
+    "no": "no"
   }
 }

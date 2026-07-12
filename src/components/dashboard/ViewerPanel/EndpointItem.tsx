@@ -13,6 +13,7 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { IconChevronDown, IconChevronRight } from '@tabler/icons-react';
 import { ParametersTable } from './ParametersTable';
 import { ResponsesSection } from './ResponsesSection';
@@ -27,6 +28,7 @@ interface EndpointItemProps {
 }
 
 export function EndpointItem({ method, path, operation }: EndpointItemProps) {
+  const t = useTranslations('Viewer');
   const [open, setOpen] = useState(false);
   const parameters: OAParameter[] = (operation.parameters ?? []) as OAParameter[];
   const color = METHOD_COLORS[method] ?? 'gray';
@@ -79,7 +81,7 @@ export function EndpointItem({ method, path, operation }: EndpointItemProps) {
                 <Accordion.Item key={paramIn} value={paramIn}>
                   <Accordion.Control>
                     <Group gap="xs">
-                      <Text size="sm" fw={500}>Parameters</Text>
+                      <Text size="sm" fw={500}>{t('parameters')}</Text>
                       <Badge size="xs" color="gray" variant="outline">{paramIn}</Badge>
                       <Badge size="xs" color="blue" variant="light">
                         {parameters.filter((p) => p.in === paramIn).length}
@@ -96,8 +98,8 @@ export function EndpointItem({ method, path, operation }: EndpointItemProps) {
                 <Accordion.Item value="requestBody">
                   <Accordion.Control>
                     <Group gap="xs">
-                      <Text size="sm" fw={500}>Request Body</Text>
-                      {operation.requestBody.required && <Badge size="xs" color="red">required</Badge>}
+                      <Text size="sm" fw={500}>{t('requestBody')}</Text>
+                      {operation.requestBody.required && <Badge size="xs" color="red">{t('required')}</Badge>}
                     </Group>
                   </Accordion.Control>
                   <Accordion.Panel>
@@ -125,7 +127,7 @@ export function EndpointItem({ method, path, operation }: EndpointItemProps) {
               {operation.responses && Object.keys(operation.responses).length > 0 && (
                 <Accordion.Item value="responses">
                   <Accordion.Control>
-                    <Text size="sm" fw={500}>Responses</Text>
+                    <Text size="sm" fw={500}>{t('responses')}</Text>
                   </Accordion.Control>
                   <Accordion.Panel>
                     <ResponsesSection responses={operation.responses} />
