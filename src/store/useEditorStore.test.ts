@@ -52,7 +52,7 @@ function createMockOpenAPIV3Document(overrides: Partial<OpenAPIV3.Document> = {}
 
 describe('useEditorStore', () => {
   beforeEach(() => {
-    vi.clearAllMocks();
+    vi.resetAllMocks();
 
     useEditorStore.setState({
       schema: '',
@@ -237,29 +237,35 @@ describe('useEditorStore', () => {
   });
 
   describe('saveSchema', () => {
-    const mockUser = { id: 'user-1', email: 'test@test.com' };
-    const mockSupabase = {
-      auth: {
-        getUser: vi.fn().mockResolvedValue({ data: { user: mockUser } }),
-      },
-      from: vi.fn().mockReturnValue({
-        upsert: vi.fn().mockResolvedValue({ error: null }),
-        select: vi.fn().mockReturnThis(),
-        eq: vi.fn().mockReturnThis(),
-        single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
-      }),
-    };
-
     beforeEach(() => {
-      vi.mocked(createClient).mockReturnValue(mockSupabase as never);
+      vi.mocked(createClient).mockReset();
     });
 
+    const mockUser = { id: 'user-1', email: 'test@test.com' };
+  
+    function createMockSupabase(overrides: Partial<{ user: typeof mockUser | null; upsertError: Error | null }> = {}) {
+      const user = overrides.user !== undefined ? overrides.user : mockUser;
+      const upsertError = overrides.upsertError || null;
+  
+      return {
+        auth: {
+          getUser: vi.fn().mockResolvedValue({ data: { user } }),
+        },
+        from: vi.fn().mockReturnValue({
+          upsert: vi.fn().mockResolvedValue({ error: upsertError }),
+        }),
+      };
+    }
+  
+    beforeEach(() => {
+      vi.mocked(createClient).mockReset();
+    });
+  
     it('should throw error when schema is empty', async () => {
       const { saveSchema } = useEditorStore.getState();
-
       await expect(saveSchema()).rejects.toThrow('Schema is empty');
     });
-
+  
     it('should validate schema before saving', async () => {
       const { setSchema, saveSchema } = useEditorStore.getState();
       const mockData = createMockOpenAPIV3Document();
@@ -269,15 +275,16 @@ describe('useEditorStore', () => {
         data: mockData,
         format: DATA_FORMATS.YAML,
       };
-
+  
       vi.mocked(validateSchema).mockResolvedValue(mockValidation);
-
+      vi.mocked(createClient).mockReturnValue(createMockSupabase() as never);
+  
       setSchema('openapi: 3.0.0');
       await saveSchema();
-
+  
       expect(validateSchema).toHaveBeenCalledWith('openapi: 3.0.0');
     });
-
+  
     it('should throw error when schema is invalid', async () => {
       const { setSchema, saveSchema } = useEditorStore.getState();
       const mockValidation: MockValidationResult = {
@@ -286,13 +293,13 @@ describe('useEditorStore', () => {
         data: null,
         format: DATA_FORMATS.YAML,
       };
-
+  
       vi.mocked(validateSchema).mockResolvedValue(mockValidation);
-
+  
       setSchema('invalid');
       await expect(saveSchema()).rejects.toThrow('Schema is invalid');
     });
-
+  
     it('should throw error when user is not authenticated', async () => {
       const { setSchema, saveSchema } = useEditorStore.getState();
       const mockData = createMockOpenAPIV3Document();
@@ -302,26 +309,14 @@ describe('useEditorStore', () => {
         data: mockData,
         format: DATA_FORMATS.YAML,
       };
-
+  
       vi.mocked(validateSchema).mockResolvedValue(mockValidation);
-
-      const mockSupabaseWithoutUser = {
-        auth: {
-          getUser: vi.fn().mockResolvedValue({ data: { user: null } }),
-        },
-        from: vi.fn().mockReturnValue({
-          upsert: vi.fn().mockResolvedValue({ error: null }),
-          select: vi.fn().mockReturnThis(),
-          eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
-        }),
-      };
-      vi.mocked(createClient).mockReturnValue(mockSupabaseWithoutUser as never);
-
+      vi.mocked(createClient).mockReturnValue(createMockSupabase({ user: null }) as never);
+  
       setSchema('openapi: 3.0.0');
       await expect(saveSchema()).rejects.toThrow('User is not authenticated');
     });
-
+  
     it('should set isSaving during save operation', async () => {
       const { setSchema, saveSchema } = useEditorStore.getState();
       const mockData = createMockOpenAPIV3Document();
@@ -331,9 +326,9 @@ describe('useEditorStore', () => {
         data: mockData,
         format: DATA_FORMATS.YAML,
       };
-
+  
       vi.mocked(validateSchema).mockResolvedValue(mockValidation);
-
+  
       let isSavingCheck = false;
       const mockSupabaseWithDelay = {
         auth: {
@@ -345,18 +340,15 @@ describe('useEditorStore', () => {
             await new Promise((resolve) => setTimeout(resolve, 10));
             return { error: null };
           }),
-          select: vi.fn().mockReturnThis(),
-          eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
         }),
       };
       vi.mocked(createClient).mockReturnValue(mockSupabaseWithDelay as never);
-
+  
       setSchema('openapi: 3.0.0');
-
+  
       const savePromise = saveSchema();
       expect(useEditorStore.getState().isSaving).toBe(true);
-
+  
       await savePromise;
       expect(useEditorStore.getState().isSaving).toBe(false);
       expect(isSavingCheck).toBe(true);
@@ -365,6 +357,11 @@ describe('useEditorStore', () => {
 
   describe('loadSchema', () => {
     const mockUser = { id: 'user-1', email: 'test@test.com' };
+
+    beforeEach(() => {
+      vi.mocked(validateSchema).mockReset();
+      vi.mocked(createClient).mockReset();
+    });
 
     it('should not load when user is not authenticated', async () => {
       const { loadSchema } = useEditorStore.getState();
@@ -391,6 +388,14 @@ describe('useEditorStore', () => {
         content: 'openapi: 3.0.0\ninfo:\n  title: Test',
         format: DATA_FORMATS.YAML,
       };
+
+      const mockValidatedData = createMockOpenAPIV3Document();
+      vi.mocked(validateSchema).mockResolvedValue({
+        isValid: true,
+        errors: [],
+        data: mockValidatedData,
+        format: DATA_FORMATS.YAML,
+      });
 
       const mockSupabase = {
         auth: {
@@ -422,6 +427,13 @@ describe('useEditorStore', () => {
 
       setSchema('existing schema');
 
+      vi.mocked(validateSchema).mockResolvedValue({
+        isValid: true,
+        errors: [],
+        data: createMockOpenAPIV3Document(),
+        format: DATA_FORMATS.YAML,
+      });
+
       const mockSupabase = {
         auth: {
           getUser: vi.fn().mockResolvedValue({ data: { user: mockUser } }),
@@ -446,6 +458,13 @@ describe('useEditorStore', () => {
 
     it('should set isLoading during load', async () => {
       const { loadSchema } = useEditorStore.getState();
+
+      vi.mocked(validateSchema).mockResolvedValue({
+        isValid: true,
+        errors: [],
+        data: createMockOpenAPIV3Document(),
+        format: DATA_FORMATS.YAML,
+      });
 
       const mockSupabase = {
         auth: {
