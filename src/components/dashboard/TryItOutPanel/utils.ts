@@ -19,7 +19,7 @@ export function getInitialBodyText(
   let cleanDataObject =
     mediaType.example ?? firstExample?.value;
 
-  if (!cleanDataObject && mediaType.schema) {
+  if (cleanDataObject == null && mediaType.schema) {
     try {
       const schema = mediaType.schema as Record<string, unknown>;
 
@@ -29,7 +29,7 @@ export function getInitialBodyText(
     }
   }
 
-  if (cleanDataObject === null || cleanDataObject === undefined) {
+  if (cleanDataObject == null) {
     return '';
   }
 
