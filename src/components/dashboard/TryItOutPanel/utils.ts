@@ -150,14 +150,16 @@ export function buildCurl({
   headers,
   body,
 }: BuildCurlParams): string {
+  const escapeShell = (str: string) => str.replace(/'/g, '\'\\\'\'');
+
   const lines = [
-    `curl -X ${method.toUpperCase()} '${url}'`,
+    `curl -X ${method.toUpperCase()} '${escapeShell(url)}'`,
   ];
 
   Object.entries(headers).forEach(([key, value]) => {
     if (!value.trim()) return;
 
-    lines.push(`  -H '${key}: ${value}'`);
+    lines.push(`  -H '${escapeShell(key)}: ${escapeShell(value)}'`);
   });
 
   if (
@@ -166,7 +168,7 @@ export function buildCurl({
     method !== 'GET' &&
     method !== 'HEAD'
   ) {
-    lines.push(`  -d '${body}'`);
+    lines.push(`  -d '${escapeShell(body)}'`);
   }
 
   return lines.join(' \\\n');
