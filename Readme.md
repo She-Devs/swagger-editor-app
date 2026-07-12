@@ -27,3 +27,5 @@ This project was developed by the RSSAgents team as part of the RS School JS/FE 
 - **Testing** | Unit tests (React Testing Library), End-to-end tests (Cypress), Vitest
 - **CI/CD** | GitHub Actions (Dev → Staging, Main → Production)
 - **API Client** | Axios
+
+## [Deploy](https://swagger-editor-app.netlify.app/) 
