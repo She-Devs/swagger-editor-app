@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Table } from '@mantine/core';
+import { Accordion, Badge, Table, Text } from '@mantine/core';
 import { METHOD_COLORS } from '@/constants';
 
 interface HistoryRecord {
@@ -47,7 +47,19 @@ export function HistoryList({ history }: HistoryListProps) {
                   <Badge color={statusColor}>{record.status_code}</Badge>
                 </Table.Td>
                 <Table.Td>{record.created_at}</Table.Td>
-                <Table.Td>accordion</Table.Td>
+                <Table.Td>
+                  <Accordion variant="separated">
+                    <Accordion.Item value={record.id}>
+                      <Accordion.Control>Details</Accordion.Control>
+                      <Accordion.Panel>
+                        <Text size="xs">Duration: {record.duration_ms}ms</Text>
+                        <Text size="xs">Request size: {record.request_size} bytes</Text>
+                        <Text size="xs">Response size: {record.response_size} bytes</Text>
+                        {record.error_details && <Text size="xs" c="red">Error: {record.error_details}</Text>}
+                      </Accordion.Panel>
+                    </Accordion.Item>
+                  </Accordion>
+                </Table.Td>
               </Table.Tr>
             );
           })}
