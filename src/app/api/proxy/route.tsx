@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import dns from 'dns/promises';
 import { Agent, fetch as undiciFetch } from 'undici';
 
-function isPrivateIp(ip: string): boolean {
+export function isPrivateIp(ip: string): boolean {
   if (ip === '127.0.0.1' || ip === '0.0.0.0' || ip === '::1' || ip === '::' || ip.startsWith('fe80:')) {
     return true;
   }
