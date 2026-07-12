@@ -3,7 +3,7 @@
 import { OpenAPI } from 'openapi-types';
 import { Badge, Box, Code, Group, Stack, Text, Title } from '@mantine/core';
 import { EndpointItem } from './EndpointItem';
-import { HTTP_METHODS } from './types';
+import { HTTP_METHODS } from '@/constants';
 import type { OAOperation } from './types';
 
 interface EndpointListProps {

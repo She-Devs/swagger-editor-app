@@ -17,7 +17,7 @@ import { IconChevronDown, IconChevronRight } from '@tabler/icons-react';
 import { ParametersTable } from './ParametersTable';
 import { ResponsesSection } from './ResponsesSection';
 import { SchemaPreview } from './SchemaPreview';
-import { METHOD_COLORS } from './types';
+import { METHOD_COLORS } from '@/constants';
 import type { OAOperation, OAParameter } from './types';
 
 interface EndpointItemProps {
