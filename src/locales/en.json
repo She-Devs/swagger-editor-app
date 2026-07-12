@@ -71,7 +71,7 @@
   },
   "NotFound": {
     "title": "Page not found",
-    "decription": "The page you are looking for does not exist or has been moved. You may have followed an outdated link.",
+    "description": "The page you are looking for does not exist or has been moved. You may have followed an outdated link.",
     "backHome": "Back to home"
   }
 }

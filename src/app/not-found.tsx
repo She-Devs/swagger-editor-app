@@ -7,7 +7,7 @@ export default function NotFoundPage() {
   return (
     <div style={{ textAlign: 'center', padding: '50px' }}>
       <h1>{t('title')}</h1>
-      <p>{t('decription')}</p>
+      <p>{t('description')}</p>
       <Link href="/">{t('backHome')}</Link>
     </div>
   );
