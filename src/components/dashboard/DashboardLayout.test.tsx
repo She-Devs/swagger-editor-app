@@ -4,15 +4,6 @@ import { MantineProvider } from '@mantine/core';
 import { DashboardLayout } from './DashboardLayout';
 import { NextIntlClientProvider } from 'next-intl';
 
-Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: () => ({
-    matches: false,
-    addEventListener: () => {},
-    removeEventListener: () => {},
-  }),
-});
-
 global.ResizeObserver = class ResizeObserver {
   observe() {}
   unobserve() {}

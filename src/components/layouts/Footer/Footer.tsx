@@ -6,7 +6,7 @@ import '@mantine/core/styles.css';
 import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import classes from './Footer.module.css';
-import { LOGO, RS_SCHOOL, FOOTER_YEAR } from '@/constants';
+import { LOGO, RS_SCHOOL, FOOTER_YEAR, RS_SCHOOL_LINK } from '@/constants';
 
 export function Footer() {
   const t = useTranslations('Navigation');
@@ -25,7 +25,7 @@ export function Footer() {
           </Link>
           <Link
             className={classes.link}
-            href="https://rs.school/courses/javascript"
+            href={RS_SCHOOL_LINK}
           >
             <Image
               src="/rss-logo.svg"

@@ -6,8 +6,9 @@ import { DataFormat } from '@/utils/parseAndDetectFormat';
 import parseAndDetectFormat from '@/utils/parseAndDetectFormat';
 import validateSchema from '@/utils/validateSchema';
 import { convertSchema } from '@/utils/convertSchema';
+import { createClient } from '@/lib/supabase/client';
 
-interface EditorStore {
+export interface EditorStore {
   schema: string;
   format: DataFormat;
   errors: string[];
@@ -88,24 +89,58 @@ export const useEditorStore = create<EditorStore>()(
           set({
             schema: converted,
             format: targetFormat,
-          });
-        
+          }); 
         }
       },
 
       saveSchema: async () => {
-        const {isValid } = get();
+        const { schema } = get();
         
-        if (!isValid) {
+        if (!schema || schema.trim().length === 0) {
           return;
         }
-
+      
         set({ isSaving: true });
         
         try {
-          // TODO: Feature 3 - Saving schema (для auth users)
-          
-          await new Promise(resolve => setTimeout(resolve, 500));
+          const validation = await validateSchema(schema);
+          const format = validation.format || get().format;
+      
+          set({
+            errors: validation.errors,
+            isValid: validation.isValid,
+            validatedData: validation.data,
+            format,
+          });
+      
+          if (!validation.isValid) {  
+            return;
+          }
+      
+          const supabase = createClient();
+          const { data: { user } } = await supabase.auth.getUser();
+      
+          if (!user) {
+            return;
+          }
+      
+          const { error } = await supabase
+            .from('schemas')
+            .upsert({
+              user_id: user.id,
+              content: schema,
+              format: format,
+              updated_at: new Date().toISOString(),
+            }, {
+              onConflict: 'user_id',
+            });
+      
+          if (error) {
+            return;
+          }
+      
+        } catch (error) {         
+          throw error;
         } finally {
           set({ isSaving: false });
         }
@@ -115,20 +150,43 @@ export const useEditorStore = create<EditorStore>()(
         set({ isLoading: true });
         
         try {
-          // TODO: Feature 3 - Restore schema after login
-           
-          // Временные данные для теста
-          const data = {
-            schema: 'openapi: 3.0.0\ninfo:\n  title: Test API\n  version: 1.0.0\npaths:\n  /users:\n    get:\n      summary: Get users\n      responses:\n        "200":\n          description: Success',
-            format: DATA_FORMATS.YAML,
-          };
+          const supabase = createClient(); 
+          const { data: { user } } = await supabase.auth.getUser();
           
+          if (!user) {
+            set({ isLoading: false });
+            return;
+          }
+      
+          const requestedUserId = user.id;
+
+          const { data, error } = await supabase
+            .from('schemas')
+            .select('content, format')
+            .eq('user_id', requestedUserId)
+            .single();
+      
+          if (error && error.code !== 'PGRST116') {
+            throw error;
+          }
+      
+          if (!data) {
+            get().reset();
+            return;
+          }
+
+          const { data: { user: currentUser } } = await supabase.auth.getUser();
+          if (currentUser?.id !== requestedUserId) {
+            return;
+          }
+
           set({
-            schema: data.schema,
-            format: data.format,
+            schema: data.content,
+            format: data.format || DATA_FORMATS.YAML,
           });
-          
           await get().validate();
+        } catch (error) {
+          throw error;
         } finally {
           set({ isLoading: false });
         }

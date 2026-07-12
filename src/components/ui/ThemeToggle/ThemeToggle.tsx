@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-import classes from './../layouts/Header/Header.module.css';
+import classes from './../../layouts/Header/Header.module.css';
 import { THEME_ICONS } from '@/constants';
 
 export function ThemeToggle() {
