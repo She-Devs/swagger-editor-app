@@ -73,5 +73,32 @@
     "title": "Page not found",
     "description": "The page you are looking for does not exist or has been moved. You may have followed an outdated link.",
     "backHome": "Back to home"
+  },
+  "AboutPage": {
+    "hero": {
+      "title": "Swagger Editor",
+      "subtitle": "A modern workspace for designing and testing REST APIs",
+      "description": "Create and edit OpenAPI specifications, explore generated documentation, and test API endpoints directly from your browser.",
+      "github": "View on GitHub"
+    },
+    "school": {
+      "title": "Rolling Scopes School",
+      "description": "This project was created as part of the Rolling Scopes School React Course, an educational program focused on modern front-end development."
+    },
+    "highlights": {
+      "handsOnLearning": "Hands-on Learning",
+      "realProjects": "Real Projects",
+      "modernStack": "Modern Stack",
+      "community": "Community"
+},
+    "sections": {
+      "technologies": "Technologies Used",
+      "team": "Meet the Team",
+      "thanks": "Special Thanks"
+    },
+    "thanks": {
+      "description": "Huge thanks to our mentors for their guidance, support, and valuable feedback throughout the journey."
+    }
   }
 }
+
