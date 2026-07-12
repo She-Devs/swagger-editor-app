@@ -21,7 +21,11 @@
     "errorHeader": "Обнаружены ошибки"
   },
   "SaveSchemaButton": {
-    "title": "Сохранить"
+    "title": "Сохранить",
+    "successMessage": "Схема успешно сохранена",
+    "errorMessage": "Не удалось сохранить схему",
+    "emptySchemaError": "Схема пустая. Введите OpenAPI спецификацию",
+    "invalidSchemaError": "Схема невалидна. Исправьте ошибки перед сохранением"
   },
   "Auth": {
     "signIn": {

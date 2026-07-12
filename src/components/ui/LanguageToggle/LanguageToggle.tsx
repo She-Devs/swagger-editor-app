@@ -4,7 +4,7 @@ import { Button } from '@mantine/core';
 import { useRouter, usePathname } from '@/i18n/navigation';
 import { useLocale } from 'next-intl';
 import { useTransition } from 'react';
-import classes from './../layouts/Header/Header.module.css';
+import classes from './../../layouts/Header/Header.module.css';
 import { Locale } from '@/i18n/request';
 import { lANG_EN, lANG_RU } from '@/constants';
 

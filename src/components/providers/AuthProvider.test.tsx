@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { AuthProvider } from './AuthProvider';
 import { useAuthStore } from '@/store/authStore';
+import type { EditorStore } from '@/store/useEditorStore'; 
 
 const mockGetSession = vi.fn();
 const mockOnAuthStateChange = vi.fn();
@@ -12,8 +13,20 @@ vi.mock('@/lib/supabase/client', () => ({
     auth: {
       getSession: mockGetSession,
       onAuthStateChange: mockOnAuthStateChange,
+      getUser: vi.fn().mockResolvedValue({ data: { user: null } }),
     },
   }),
+}));
+
+const mockLoadSchema = vi.fn();
+const mockReset = vi.fn();
+
+vi.mock('@/store/useEditorStore', () => ({
+  useEditorStore: (selector: (state: EditorStore) => unknown) =>
+    selector({
+      loadSchema: mockLoadSchema,
+      reset: mockReset,
+    } as unknown as EditorStore),
 }));
 
 describe('AuthProvider', () => {
@@ -106,5 +119,45 @@ describe('AuthProvider', () => {
 
     unmount();
     expect(mockUnsubscribe).toHaveBeenCalled();
+  });
+  it('calls loadSchema when user is signed in on mount', async () => {
+    const mockUser = { id: 'abc', email: 'test@example.com' };
+    mockGetSession.mockResolvedValue({ data: { session: { user: mockUser } } });
+
+    render(
+      <AuthProvider>
+        <span>child</span>
+      </AuthProvider>
+    );
+
+    await waitFor(() => {
+      expect(mockLoadSchema).toHaveBeenCalled();
+    });
+  });
+
+  it('calls loadSchema and resetSchema appropriately on auth state change', async () => {
+    mockGetSession.mockResolvedValue({ data: { session: null } });
+
+    let capturedCallback: (event: string, session: unknown) => void = () => {};
+    mockOnAuthStateChange.mockImplementation((cb: typeof capturedCallback) => {
+      capturedCallback = cb;
+      return { data: { subscription: { unsubscribe: mockUnsubscribe } } };
+    });
+
+    render(
+      <AuthProvider>
+        <span>child</span>
+      </AuthProvider>
+    );
+
+    act(() => {
+      capturedCallback('SIGNED_IN', { user: { id: 'xyz' } });
+    });
+    expect(mockLoadSchema).toHaveBeenCalled();
+
+    act(() => {
+      capturedCallback('SIGNED_OUT', null);
+    });
+    expect(mockReset).toHaveBeenCalled();
   });
 });
