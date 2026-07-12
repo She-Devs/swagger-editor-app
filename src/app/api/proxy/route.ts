@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import dns from 'dns/promises';
+import { Agent, fetch as undiciFetch } from 'undici';
 
 function isPrivateIp(ip: string): boolean {
   if (ip === '127.0.0.1' || ip === '0.0.0.0' || ip === '::1' || ip === '::' || ip.startsWith('fe80:')) {
@@ -29,6 +30,31 @@ function isPrivateIp(ip: string): boolean {
   return false;
 }
 
+const secureAgent = new Agent({
+  connect: {
+    lookup: (hostname, options, callback) => {
+      dns.lookup(hostname, { all: true })
+        .then((lookupResults) => {
+          const hasPrivate = lookupResults.some((result) => isPrivateIp(result.address));
+          
+          if (hasPrivate) {
+            return callback(new Error('Access to private or internal addresses is forbidden'), []);
+          }
+          
+          const safeRecord = lookupResults.find((result) => !isPrivateIp(result.address));
+          if (!safeRecord) {
+            return callback(new Error('No safe IP addresses found'), []);
+          }
+
+          callback(null, [safeRecord]);
+        })
+        .catch((err) => {
+          callback(err, []);
+        });
+    }
+  }
+});
+
 export async function POST(request: Request) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -37,60 +63,35 @@ export async function POST(request: Request) {
     const { url, method, headers, body } = await request.json();
 
     if (!url || !method) {
-      return NextResponse.json(
-        { error: 'URL and method are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'URL and method are required' }, { status: 400 });
     }
 
     let parsedUrl: URL;
     try {
       parsedUrl = new URL(url);
     } catch {
-      return NextResponse.json(
-        { error: 'Invalid URL format' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid URL format' }, { status: 400 });
     }
 
     if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
-      return NextResponse.json(
-        { error: 'Only http and https protocols are allowed' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Only http and https protocols are allowed' }, { status: 400 });
     }
 
-    try {
-      const lookupResults = await dns.lookup(parsedUrl.hostname, { all: true });
-      const hasPrivate = lookupResults.some((result) => isPrivateIp(result.address));
-      
-      if (hasPrivate) {
-        return NextResponse.json(
-          { error: 'Requests to private or internal addresses are not allowed' },
-          { status: 403 }
-        );
-      }
-    } catch {
-      return NextResponse.json(
-        { error: 'Failed to resolve host' },
-        { status: 400 }
-      );
-    }
-
-    const safeRequestHeaders = new Headers();
+    const safeRequestHeaders: Record<string, string> = {};
     if (headers && typeof headers === 'object') {
       for (const [key, value] of Object.entries(headers)) {
         if (typeof value === 'string' && value.trim() !== '') {
-          safeRequestHeaders.append(key, value);
+          safeRequestHeaders[key] = value;
         }
       }
     }
 
-    const response = await fetch(url, {
+    const response = await undiciFetch(url, {
       method: method.toUpperCase(),
       headers: safeRequestHeaders,
       body: body && !['GET', 'HEAD'].includes(method.toUpperCase()) ? body : undefined,
       signal: controller.signal,
+      dispatcher: secureAgent,
     });
 
     const responseBody = await response.text();
