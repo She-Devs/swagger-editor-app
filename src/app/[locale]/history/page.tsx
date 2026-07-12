@@ -1,25 +1,66 @@
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import { HistoryList } from '@/components/HistoryList/HistoryList';
-
-export default async function HistoryPage() {
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
+import { redirect } from 'next/navigation';
+import { Box, Button, Container, Group, Text, Title } from '@mantine/core';
+import { IconHistory, IconPencil } from '@tabler/icons-react';
+import classes from './HistoryPage.module.css';
+ 
+export default async function HistoryPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const supabase = await createClient();
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims;
-  if (!user) redirect('/');
+  if (!user) redirect(`/${locale}`);
+ 
+  const t = await getTranslations('History');
+ 
   const { data: history, error } = await supabase
     .from('requests_history')
     .select('*')
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
-
+ 
   return (
-    <div className="history-page">
+    <Container size="xl" py="xl">
+      <Group gap="sm" mb="xl">
+        <IconHistory size={28} />
+        <Title order={2}>{t('title')}</Title>
+      </Group>
+ 
       {history.length === 0 ? (
-        <div>You haven&apos;t executed any requests yet</div>
+        <Box p="xl" className={classes.emptyState}>
+          <Text size="lg" fw={500} mb="xs">{t('empty')}</Text>
+          <Text size="sm" c="dimmed" mb="xl">{t('emptyHint')}</Text>
+          <Group justify="center" gap="sm">
+            <Button
+              component={Link}
+              href="/"
+              leftSection={<IconPencil size={16} />}
+              variant="light"
+            >
+              {t('goToEditor')}
+            </Button>
+          </Group>
+        </Box>
       ) : (
-        <HistoryList history={history} />
+        <HistoryList history={history} t={{
+          method: t('method'),
+          url: t('url'),
+          status: t('status'),
+          timestamp: t('timestamp'),
+          details: t('details'),
+          duration: t('duration'),
+          requestSize: t('requestSize'),
+          responseSize: t('responseSize'),
+          error: t('error'),
+        }} />
       )}
-    </div>
+    </Container>
   );
 }

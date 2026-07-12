@@ -1,11 +1,12 @@
 import { Header } from '@/components/layouts/Header/Header';
 import { Footer } from '@/components/layouts/Footer/Footer';
-import {  MantineProvider } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { AuthProvider } from '@/components/providers/AuthProvider';
-
+import classes from './layout.module.css';
+ 
 export default async function RootLayout({
   children,
   params,
@@ -19,12 +20,13 @@ export default async function RootLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <MantineProvider theme={theme} defaultColorScheme="auto">
         <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
+          <div className={classes.wrapper}>
+            <Header />
+            <main className={classes.main}>{children}</main>
+            <Footer />
+          </div>
         </AuthProvider>
       </MantineProvider>
     </NextIntlClientProvider>
-   
   );
 }

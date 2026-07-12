@@ -63,5 +63,20 @@
       "userExists": "User with this email already exists",
       "invalidCredentials": "Invalid email or password"
     }
+  },
+  "History": {
+    "title": "Request History & Analytics",
+    "empty": "You haven't executed any requests yet",
+    "emptyHint": "Use the editor and viewer to make API requests.",
+    "goToEditor": "Go to Editor",
+    "method": "Method",
+    "url": "URL / Endpoint",
+    "status": "Status",
+    "timestamp": "Timestamp",
+    "details": "Details",
+    "duration": "Duration",
+    "requestSize": "Request size",
+    "responseSize": "Response size",
+    "error": "Error"
   }
 }
