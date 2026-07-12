@@ -8,7 +8,7 @@ export default function GlobalError({
 }) {
 
   return (
-    <html>
+    <html lang="en">
       <body>
         <div style={{ textAlign: 'center', padding: '4rem' }}>
           <h2>Something went wrong</h2>
