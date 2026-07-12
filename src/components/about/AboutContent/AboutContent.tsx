@@ -1,12 +1,9 @@
 'use client';
 import { useTranslations } from 'next-intl';
-
 import { TeamCard } from '@/components/about/TeamCard/TeamCard';
 import { SectionDivider } from '@/components/ui/SectionDivider/SectionDivider';
 import { MENTORS, TEAM, HIGHLIGHTS_ABOUT, TECH } from '@/constants';
-
 import classes from './AboutContent.module.css';
-
 
 import {
   Container,
@@ -21,6 +18,7 @@ import {
   ThemeIcon,
   Paper,
   Button,
+  Center,
 } from '@mantine/core';
 
 import {
@@ -98,25 +96,27 @@ export default function AboutContent() {
               </Title>
 
               <Text size="lg" maw={TEXT_WIDTH} lh={1.7}>
-                {t('school.description')}{' '}
+                {t('school.description')}
+              </Text>
+
+              <Center mt="md"> 
                 <Anchor
-                  href="https://rs.school/courses/reactjs"
+                  href="https://rs.school"
                   target="_blank"
                   rel="noopener noreferrer"
                   fw={900}
                   underline="hover"
                   c="yellow"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                  }}
                 >
                   Rolling Scopes School React Course
-                  <IconExternalLink
-                    size={16}
-                    style={{
-                      marginLeft: 5,
-                      verticalAlign: 'middle',
-                    }}
-                  />
+                  <IconExternalLink size={16} />
                 </Anchor>
-              </Text>
+              </Center>
 
               <Group justify="center" gap="md">
                 {HIGHLIGHTS_ABOUT.map(({ key, icon: Icon }) => (
@@ -131,7 +131,6 @@ export default function AboutContent() {
                   </Badge>
                 ))}
               </Group>
-
             </Stack>
           </Paper>
 
