@@ -6,6 +6,11 @@ function isPrivateIp(ip: string): boolean {
     return true;
   }
 
+  const v4MappedMatch = ip.match(/^::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/);
+  if (v4MappedMatch) {
+    return isPrivateIp(v4MappedMatch[1]);
+  }
+
   const ipv4Pattern = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
   const match = ip.match(ipv4Pattern);
   
@@ -16,7 +21,11 @@ function isPrivateIp(ip: string): boolean {
     if (p1 === 192 && p2 === 168) return true;
     if (p1 === 169 && p2 === 254) return true;
     if (p1 === 127) return true;
+    if (p1 === 0) return true;
+    if (p1 === 100 && p2 >= 64 && p2 <= 127) return true;
+    if (p1 === 255) return true;
   }
+
   return false;
 }
 
