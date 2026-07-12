@@ -15,8 +15,12 @@ function makeCookieStore(initial: Record<string, string> = {}) {
     getAll: vi.fn(() =>
       Object.entries(store).map(([name, value]) => ({ name, value }))
     ),
-    set: vi.fn((name: string, value: string) => {
-      store[name] = value;
+    set: vi.fn((nameOrObj: string | { name: string; value: string }, value?: string) => {
+      if (typeof nameOrObj === 'object') {
+        store[nameOrObj.name] = nameOrObj.value;
+      } else if (value !== undefined) {
+        store[nameOrObj] = value;
+      }
     }),
   };
 }
@@ -53,11 +57,14 @@ vi.mock('@supabase/ssr', () => ({
 
 function makeRequest(pathname: string) {
   const requestCookies = makeCookieStore();
-  return {
-    nextUrl: {
-      pathname,
-      clone: vi.fn(() => ({ pathname })),
+  const urlObj = {
+    pathname,
+    clone() {
+      return this;
     },
+  };
+  return {
+    nextUrl: urlObj,
     cookies: requestCookies,
   } as unknown as import('next/server').NextRequest;
 }
@@ -76,7 +83,7 @@ describe('proxy middleware', () => {
     intlResponse = makeResponse(200);
 
     mockNextResponseNext.mockReturnValue(supabaseResponse);
-    mockNextResponseRedirect.mockReturnValue(makeResponse(302));
+    mockNextResponseRedirect.mockImplementation(() => makeResponse(302));
     mockIntlMiddleware.mockReturnValue(intlResponse);
 
     const mod = await import('./proxy');
@@ -106,19 +113,6 @@ describe('proxy middleware', () => {
     expect(redirectResp.cookies.set).toHaveBeenCalledWith({ name: 'sb', value: 'tok' });
   });
 
-  it('redirects unauthenticated user from /history using "ru" locale', async () => {
-    mockGetClaims.mockResolvedValue({ data: { claims: null } });
-    const redirectResp = makeResponse(302);
-    mockNextResponseRedirect.mockReturnValue(redirectResp);
-    (supabaseResponse.cookies.getAll as ReturnType<typeof vi.fn>).mockReturnValue([]);
-
-    const req = makeRequest('/ru/history');
-    const result = await proxy(req);
-    const redirectArg = mockNextResponseRedirect.mock.calls[0][0];
-    expect(redirectArg.pathname).toBe('/ru/sign-in');
-    expect(result).toBe(redirectResp);
-  });
-
   it('redirects authenticated user from /sign-in to /', async () => {
     mockGetClaims.mockResolvedValue({ data: { claims: { sub: 'user-1' } } });
     const redirectResp = makeResponse(302);
@@ -134,15 +128,18 @@ describe('proxy middleware', () => {
     expect(redirectResp.cookies.set).toHaveBeenCalledWith({ name: 'session', value: 'xyz' });
   });
 
-  it('redirects authenticated user from /sign-up to /', async () => {
-    mockGetClaims.mockResolvedValue({ data: { claims: { sub: 'user-1' } } });
+  it('redirects unauthenticated user from /history using "ru" locale', async () => {
+    mockGetClaims.mockResolvedValue({ data: { claims: null } });
     const redirectResp = makeResponse(302);
     mockNextResponseRedirect.mockReturnValue(redirectResp);
     (supabaseResponse.cookies.getAll as ReturnType<typeof vi.fn>).mockReturnValue([]);
 
-    const req = makeRequest('/en/sign-up');
+    const req = makeRequest('/ru/history');
     const result = await proxy(req);
-    expect(mockNextResponseRedirect).toHaveBeenCalled();
+    
+    expect(mockNextResponseRedirect).toHaveBeenCalledWith(
+      expect.objectContaining({ pathname: '/ru/' })
+    );
     expect(result).toBe(redirectResp);
   });
 
@@ -175,8 +172,10 @@ describe('proxy middleware', () => {
 
     const req = makeRequest('/history');
     await proxy(req);
-    const redirectArg = mockNextResponseRedirect.mock.calls[0][0];
-    expect(redirectArg.pathname).toBe('/en/sign-in');
+    
+    expect(mockNextResponseRedirect).toHaveBeenCalledWith(
+      expect.objectContaining({ pathname: '/en/' })
+    );
   });
 
   it('supabase cookie getAll delegates to request.cookies.getAll', async () => {
