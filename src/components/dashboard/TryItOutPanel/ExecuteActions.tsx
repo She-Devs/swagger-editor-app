@@ -2,6 +2,7 @@
 
 import { Button, Group } from '@mantine/core';
 import { IconSend, IconTerminal, IconX } from '@tabler/icons-react';
+import { useTranslations } from 'next-intl';
 
 interface ExecuteActionsProps {
   onExecute: () => void;
@@ -16,6 +17,8 @@ export function ExecuteActions({
   onClear,
   loading = false,
 }: ExecuteActionsProps) {
+  const t = useTranslations('TryItOut.ExecuteActions');
+    
   return (
     <Group gap="sm">
       <Button
@@ -24,7 +27,7 @@ export function ExecuteActions({
         disabled={loading}
         leftSection={!loading && <IconSend size={14} />}
       >
-        Execute
+        {t('execute')}
       </Button>
 
       <Button
@@ -33,7 +36,7 @@ export function ExecuteActions({
         disabled={loading}
         leftSection={<IconTerminal size={14} />}
       >
-        Generate cURL
+        {t('generateCurl')}
       </Button>
 
       <Button
@@ -43,7 +46,7 @@ export function ExecuteActions({
         disabled={loading}
         leftSection={<IconX size={14} />}
       >
-        Clear
+        {t('clear')}
       </Button>
     </Group>
   );

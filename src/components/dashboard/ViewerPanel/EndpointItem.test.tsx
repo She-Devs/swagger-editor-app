@@ -4,6 +4,23 @@ import { MantineProvider } from '@mantine/core';
 import { EndpointItem } from './EndpointItem';
 import type { OAOperation } from './types';
 
+
+vi.mock('next-intl', () => {
+  return {
+    useTranslations: () => {
+      const t = (key: string, values?: Record<string, unknown>) => {
+        if (values && typeof values === 'object' && 'invalidValue' in values) {
+          return `Mocked validation error for ${values.invalidValue}`;
+        }
+        return key;
+      };
+      t.has = () => true;
+      return t;
+    }
+  };
+});
+
+
 vi.mock('./SchemaPreview', () => ({
   SchemaPreview: ({ schema }: { schema: unknown }) => (
     <pre data-testid="schema-preview">{JSON.stringify(schema)}</pre>

@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Badge, Code, Paper, Stack, Text, Group } from '@mantine/core';
 import { CodeHighlight } from '@mantine/code-highlight';
 import '@mantine/code-highlight/styles.css';
+import { useTranslations } from 'next-intl';
 import type { ResponseState } from './types';
 
 interface ResponseViewerProps {
@@ -17,6 +18,7 @@ export function ResponseViewer({
   error,
   requestUrl,
 }: ResponseViewerProps) {
+  const t = useTranslations('TryItOut.ResponseViewer');
   
   const detectedLanguage = useMemo(() => {
     if (!response?.headers) return 'json';
@@ -38,7 +40,6 @@ export function ResponseViewer({
       return response.body;
     }
   }, [response]);
-
 
   const formattedHeaders = useMemo(() => {
     if (!response?.headers || Object.keys(response.headers).length === 0) return null;
@@ -63,14 +64,7 @@ export function ResponseViewer({
       try {
         const parsed: unknown = JSON.parse(response.body);
         if (parsed && typeof parsed === 'object' && 'message' in parsed) {
-          const rawMessage = String((parsed as Record<string, unknown>).message);
-
-          if (rawMessage.includes('couldn\'t convert') && rawMessage.includes('java.lang.Long')) {
-            const invalidValue = rawMessage.match(/`([^`]+)`/)?.[1] || '';
-            return `Validation Error: The value "${invalidValue}" is invalid. This field requires a valid number (Integer/Long ID).`;
-          }
-
-          return rawMessage;
+          return String((parsed as Record<string, unknown>).message);
         }
       } catch {
       }
@@ -150,7 +144,7 @@ export function ResponseViewer({
         </Text>
       ) : (
         <Text size="sm" c="dimmed">
-          Execute a request to see response.
+          {t('emptyState')}
         </Text>
       )}
     </Paper>

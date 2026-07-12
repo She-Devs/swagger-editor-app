@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { Divider, Stack, InputWrapper, TextInput } from '@mantine/core';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { useTranslations } from 'next-intl';
 
 interface RequestBodyEditorProps {
   body: string;
@@ -11,18 +12,17 @@ interface RequestBodyEditorProps {
 }
 
 export function RequestBodyEditor({ body, onBodyChange }: RequestBodyEditorProps) {
+  const t = useTranslations('TryItOut.RequestBodyEditor');
+
   const validationError = useMemo(() => {
     if (!body.trim()) return null;
     try {
       JSON.parse(body);
       return null;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        return error.message;
-      }
-      return 'Invalid JSON syntax';
+    } catch {
+      return t('invalidJson');
     }
-  }, [body]);
+  }, [body, t]);
 
   return (
     <Stack gap="sm">
@@ -35,7 +35,7 @@ export function RequestBodyEditor({ body, onBodyChange }: RequestBodyEditorProps
 
       <InputWrapper
         label="Request Body"
-        description="Provide payload matching spec configuration (application/json)"
+        description={t('bodyDescription')}
         error={validationError}
       >
         <div 

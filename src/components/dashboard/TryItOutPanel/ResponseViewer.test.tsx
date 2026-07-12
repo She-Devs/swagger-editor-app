@@ -8,6 +8,19 @@ const renderWithMantine = (ui: React.ReactElement) => {
   return render(<MantineProvider>{ui}</MantineProvider>);
 };
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => {
+    const t = (key: string) => {
+      if (key === 'emptyState') {
+        return 'Execute a request to see response.';
+      }
+      return key;
+    };
+    t.has = () => true;
+    return t;
+  },
+}));
+
 vi.mock('@mantine/code-highlight', () => ({
   CodeHighlight: ({ code, language }: { code: string; language: string }) => (
     <pre data-testid="mock-code" data-lang={language}>
@@ -80,12 +93,14 @@ describe('ResponseViewer Component', () => {
     expect(bodyBlock?.textContent).toBe('<h1>Hello World</h1>');
   });
 
-  it('should format friendly error message for specific Java Long conversion errors', () => {
+  it('should render raw message for specific Java Long conversion errors', () => {
+    const rawJavaError = 'Internal Server Error: couldn\'t convert value `abc` to required type java.lang.Long';
+    
     const mockResponse: ResponseState = {
       status: 400,
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        message: 'Internal Server Error: couldn\'t convert value `abc` to required type java.lang.Long',
+        message: rawJavaError,
       }),
       requestUrl: 'https://example.com',
     };
@@ -93,8 +108,6 @@ describe('ResponseViewer Component', () => {
     renderWithMantine(<ResponseViewer response={mockResponse} error={null} requestUrl={null} />);
 
     expect(screen.getByText('Error Message')).toBeInTheDocument();
-    expect(
-      screen.getByText('Validation Error: The value "abc" is invalid. This field requires a valid number (Integer/Long ID).')
-    ).toBeInTheDocument();
+    expect(screen.getByText(rawJavaError)).toBeInTheDocument();
   });
 });

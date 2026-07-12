@@ -3,6 +3,14 @@ import { describe, it, expect, vi } from 'vitest';
 import { MantineProvider } from '@mantine/core';
 import { CurlViewer } from './CurlViewer';
 
+vi.mock('next-intl', () => ({
+  useTranslations: () => {
+    const t = (key: string) => key;
+    t.has = () => true;
+    return t;
+  },
+}));
+
 const renderWithMantine = (ui: React.ReactElement) => {
   return render(<MantineProvider>{ui}</MantineProvider>);
 };

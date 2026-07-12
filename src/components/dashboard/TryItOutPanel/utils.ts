@@ -115,13 +115,29 @@ export function buildRequest({
     )
   );
 
+  const lowerHeaders = Object.keys(cleanHeaders).reduce((acc, key) => {
+    acc[key.toLowerCase()] = cleanHeaders[key];
+    return acc;
+  }, {} as Record<string, string>);
+
+  const isJson = lowerHeaders['content-type']?.includes('application/json');
+  const isMethodWithBody = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
+  const isBodyEmpty = !body || body.trim() === '';
+
+  let finalBody: string | undefined = body.trim() || undefined;
+
+  if (isMethodWithBody && isJson && isBodyEmpty) {
+    finalBody = '{}';
+  }
+
   return {
     url,
     method: method.toUpperCase(),
     headers: cleanHeaders,
-    body: body.trim() || undefined,
+    body: finalBody,
   };
 }
+
 
 export function getServerUrl(schema: unknown): string {
   if (!schema || typeof schema !== 'object') {

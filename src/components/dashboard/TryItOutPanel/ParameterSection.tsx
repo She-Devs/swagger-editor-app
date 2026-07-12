@@ -18,6 +18,7 @@ export function ParameterSection({
   values,
   onValueChange,
 }: ParameterSectionProps) {
+   
   if (!params.length) return null;
 
   return (
@@ -27,7 +28,7 @@ export function ParameterSection({
       </Text>
       {params.map((param) => {
         const key = `${param.in}_${param.name}`;
-        const error = validationErrors[key];
+        const errorMessage = validationErrors[key]; 
         const value = values[key] ?? '';
 
         return (
@@ -36,7 +37,7 @@ export function ParameterSection({
             label={param.name}
             description={param.description}
             required={param.required}
-            error={error}
+            error={errorMessage}
             value={value}
             onChange={(e) => onValueChange(param.in, param.name, e.currentTarget.value)}
           />
