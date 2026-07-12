@@ -1,4 +1,24 @@
 import { NextResponse } from 'next/server';
+import dns from 'dns/promises';
+
+function isPrivateIp(ip: string): boolean {
+  if (ip === '127.0.0.1' || ip === '0.0.0.0' || ip === '::1' || ip === '::' || ip.startsWith('fe80:')) {
+    return true;
+  }
+
+  const ipv4Pattern = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+  const match = ip.match(ipv4Pattern);
+  
+  if (match) {
+    const [, p1, p2] = match.map(Number);
+    if (p1 === 10) return true;
+    if (p1 === 172 && p2 >= 16 && p2 <= 31) return true;
+    if (p1 === 192 && p2 === 168) return true;
+    if (p1 === 169 && p2 === 254) return true;
+    if (p1 === 127) return true;
+  }
+  return false;
+}
 
 export async function POST(request: Request) {
   const controller = new AbortController();
@@ -14,11 +34,36 @@ export async function POST(request: Request) {
       );
     }
 
+    let parsedUrl: URL;
     try {
-      new URL(url);
+      parsedUrl = new URL(url);
     } catch {
       return NextResponse.json(
         { error: 'Invalid URL format' },
+        { status: 400 }
+      );
+    }
+
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      return NextResponse.json(
+        { error: 'Only http and https protocols are allowed' },
+        { status: 400 }
+      );
+    }
+
+    try {
+      const lookupResults = await dns.lookup(parsedUrl.hostname, { all: true });
+      const hasPrivate = lookupResults.some((result) => isPrivateIp(result.address));
+      
+      if (hasPrivate) {
+        return NextResponse.json(
+          { error: 'Requests to private or internal addresses are not allowed' },
+          { status: 403 }
+        );
+      }
+    } catch {
+      return NextResponse.json(
+        { error: 'Failed to resolve host' },
         { status: 400 }
       );
     }
@@ -40,7 +85,6 @@ export async function POST(request: Request) {
     });
 
     const responseBody = await response.text();
-
     const clientResponseHeaders: Record<string, string> = {};
     const ALLOWED_HEADERS = ['content-type', 'content-length', 'cache-control'];
     
@@ -63,7 +107,6 @@ export async function POST(request: Request) {
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
     return NextResponse.json({ error: 'Proxy request failed' }, { status: 500 });
   } finally {
     clearTimeout(timeoutId);
