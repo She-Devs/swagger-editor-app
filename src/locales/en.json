@@ -64,6 +64,38 @@
       "invalidCredentials": "Invalid email or password"
     }
   },
+  "History": {
+    "title": "Request History & Analytics",
+    "empty": "You haven't executed any requests yet",
+    "emptyHint": "Use the editor and viewer to make API requests.",
+    "goToEditor": "Go to main page (Editor and Viewer)",
+    "method": "Method",
+    "url": "URL / Endpoint",
+    "status": "Status",
+    "timestamp": "Timestamp",
+    "details": "Details",
+    "duration": "Duration",
+    "requestSize": "Request size",
+    "responseSize": "Response size",
+    "error": "Error"
+  },
+  "Viewer": {
+    "noEndpoints": "No endpoints found",
+    "endpointsTitle": "Endpoints ({count})",
+    "path": "Path",
+    "methodCount": "{count, plural, one {# method} other {# methods}}",
+    "parameters": "Parameters",
+    "requestBody": "Request Body",
+    "required": "required",
+    "requiredColumn": "Required",
+    "responses": "Responses",
+    "none": "None",
+    "name": "Name",
+    "type": "Type",
+    "description": "Description",
+    "yes": "yes",
+    "no": "no"
+    },
   "AboutPage": {
     "hero": {
       "title": "Swagger Editor",

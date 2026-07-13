@@ -29,16 +29,3 @@ export type OAOperation = {
   };
   responses?: Record<string, OAResponse>;
 };
-
-export const METHOD_COLORS: Record<string, string> = {
-  get: 'teal',
-  post: 'blue',
-  put: 'orange',
-  delete: 'red',
-  patch: 'yellow',
-  options: 'gray',
-  head: 'gray',
-  trace: 'gray',
-};
-
-export const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch', 'options', 'head', 'trace'];
