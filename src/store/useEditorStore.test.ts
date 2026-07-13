@@ -373,7 +373,7 @@ describe('useEditorStore', () => {
         from: vi.fn().mockReturnValue({
           select: vi.fn().mockReturnThis(),
           eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } }),
+          maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }),
         }),
       };
       vi.mocked(createClient).mockReturnValue(mockSupabaseWithoutUser as never);
@@ -404,7 +404,7 @@ describe('useEditorStore', () => {
         from: vi.fn().mockReturnValue({
           select: vi.fn().mockReturnThis(),
           eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockResolvedValue({
+          maybeSingle: vi.fn().mockResolvedValue({
             data: mockData,
             error: null,
           }),
@@ -441,9 +441,9 @@ describe('useEditorStore', () => {
         from: vi.fn().mockReturnValue({
           select: vi.fn().mockReturnThis(),
           eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockResolvedValue({
+          maybeSingle: vi.fn().mockResolvedValue({
             data: null,
-            error: { code: 'PGRST116' },
+            error: null,
           }),
         }),
       };
@@ -473,9 +473,9 @@ describe('useEditorStore', () => {
         from: vi.fn().mockReturnValue({
           select: vi.fn().mockReturnThis(),
           eq: vi.fn().mockReturnThis(),
-          single: vi.fn().mockImplementation(async () => {
+          maybeSingle: vi.fn().mockImplementation(async () => {
             await new Promise((resolve) => setTimeout(resolve, 10));
-            return { data: null, error: { code: 'PGRST116' } };
+            return { data: null, error: null };
           }),
         }),
       };

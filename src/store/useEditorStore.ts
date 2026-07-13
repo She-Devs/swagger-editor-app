@@ -164,9 +164,9 @@ export const useEditorStore = create<EditorStore>()(
             .from('schemas')
             .select('content, format')
             .eq('user_id', requestedUserId)
-            .single();
-      
-          if (error && error.code !== 'PGRST116') {
+            .maybeSingle();
+
+          if (error) {
             throw error;
           }
       
