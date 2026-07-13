@@ -10,7 +10,6 @@
   "About": {
     "title": "О приложении"
   },
-
   "FormatSwitcher": {
     "switchToYaml": "Переключить на YAML",
     "switchToJson": "Переключить на JSON",
@@ -65,6 +64,48 @@
       "invalidCredentials": "Неверный email или пароль"
     }
   },
+  "ErrorBoundary": {
+    "title": "Упс, что-то пошло не так",
+    "description": "Попробуйте обновить страницу",
+    "retry": "Попробовать снова"
+  },
+  "NotFound": {
+    "title": "Страница не найдена",
+    "description": "Запрашиваемая страница не существует или была перемещена. Возможно, вы перешли по устаревшей ссылке.",
+    "backHome": "Вернуться на главную"
+  },
+  "History": {
+    "title": "История запросов и аналитика",
+    "empty": "Вы ещё не выполняли ни одного запроса",
+    "emptyHint": "Воспользуйтесь редактором и просмотрщиком для выполнения API запросов.",
+    "goToEditor": "Перейти на главную (Editor и Viewer)",
+    "method": "Метод",
+    "url": "URL / Эндпоинт",
+    "status": "Статус",
+    "timestamp": "Время",
+    "details": "Детали",
+    "duration": "Длительность",
+    "requestSize": "Размер запроса",
+    "responseSize": "Размер ответа",
+    "error": "Ошибка"
+  },
+  "Viewer": {
+    "noEndpoints": "Эндпоинты не найдены",
+    "endpointsTitle": "Эндпоинты ({count})",
+    "path": "Путь",
+    "methodCount": "{count, plural, one {# метод} few {# метода} many {# методов} other {# метода}}",
+    "parameters": "Параметры",
+    "requestBody": "Тело запроса",
+    "required": "обязательно",
+    "requiredColumn": "Обязательный",
+    "responses": "Ответы",
+    "none": "Нет",
+    "name": "Название",
+    "type": "Тип",
+    "description": "Описание",
+    "yes": "да",
+    "no": "нет"
+    },
   "AboutPage": {
     "hero": {
       "title": "Swagger Editor",

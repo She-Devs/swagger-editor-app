@@ -14,13 +14,13 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
+import { useTranslations } from 'next-intl';
 import { IconChevronDown, IconChevronRight } from '@tabler/icons-react';
 
 import { ParametersTable } from './ParametersTable';
 import { ResponsesSection } from './ResponsesSection';
 import { SchemaPreview } from './SchemaPreview';
-import { METHOD_COLORS } from './types';
-
+import { METHOD_COLORS } from '@/constants';
 import type { OAOperation, OAParameter } from './types';
 import { TryItOutPanel } from '../TryItOutPanel/TryItOutPanel';
 
@@ -30,11 +30,8 @@ interface EndpointItemProps {
   operation: OAOperation;
 }
 
-export function EndpointItem({
-  method,
-  path,
-  operation,
-}: EndpointItemProps) {
+export function EndpointItem({ method, path, operation }: EndpointItemProps) {
+  const t = useTranslations('Viewer');
   const [open, setOpen] = useState(false);
 
   const parameters: OAParameter[] =
@@ -148,7 +145,7 @@ export function EndpointItem({
                               size="sm"
                               fw={500}
                             >
-                              Parameters
+                              {t('parameters')}
                             </Text>
 
                             <Badge
@@ -191,7 +188,7 @@ export function EndpointItem({
                             size="sm"
                             fw={500}
                           >
-                            Request Body
+                            {t('requestBody')}
                           </Text>
 
                           {operation.requestBody.required && (
@@ -199,7 +196,7 @@ export function EndpointItem({
                               size="xs"
                               color="red"
                             >
-                              required
+                              {t('required')}
                             </Badge>
                           )}
                         </Group>
@@ -273,7 +270,7 @@ export function EndpointItem({
                           size="sm"
                           fw={500}
                         >
-                          Responses
+                          {t('responses')}
                         </Text>
                       </Accordion.Control>
 

@@ -24,6 +24,7 @@
     "@mantine/code-highlight": "^9.4.1",
     "@mantine/core": "^9.4.1",
     "@mantine/hooks": "^9.4.1",
+    "@mantine/notifications": "^9.4.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "@tabler/icons-react": "^3.44.0",

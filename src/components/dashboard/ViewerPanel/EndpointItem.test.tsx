@@ -1,25 +1,25 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
+import { NextIntlClientProvider } from 'next-intl';
 import { EndpointItem } from './EndpointItem';
 import type { OAOperation } from './types';
 
-
-vi.mock('next-intl', () => {
-  return {
-    useTranslations: () => {
-      const t = (key: string, values?: Record<string, unknown>) => {
-        if (values && typeof values === 'object' && 'invalidValue' in values) {
-          return `Mocked validation error for ${values.invalidValue}`;
-        }
-        return key;
-      };
-      t.has = () => true;
-      return t;
-    }
-  };
-});
-
+const messages = {
+  Viewer: {
+    parameters: 'Parameters',
+    requestBody: 'Request Body',
+    required: 'required',
+    responses: 'Responses',
+    none: 'None',
+    name: 'Name',
+    requiredColumn: 'Required',
+    type: 'Type',
+    description: 'Description',
+    yes: 'yes',
+    no: 'no',
+  },
+};
 
 vi.mock('./SchemaPreview', () => ({
   SchemaPreview: ({ schema }: { schema: unknown }) => (
@@ -28,7 +28,11 @@ vi.mock('./SchemaPreview', () => ({
 }));
 
 function renderWithMantine(ui: React.ReactElement) {
-  return render(<MantineProvider>{ui}</MantineProvider>);
+  return render(
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <MantineProvider>{ui}</MantineProvider>
+    </NextIntlClientProvider>
+  );
 }
 
 const fullOperation: OAOperation = {
@@ -69,7 +73,7 @@ describe('EndpointItem', () => {
     renderWithMantine(<EndpointItem method="get" path="/users/{id}" operation={fullOperation} />);
     fireEvent.click(screen.getByRole('button'));
     expect(screen.getByText('Returns a single user')).toBeTruthy();
-  
+
     expect(screen.getAllByText('path').length).toBeGreaterThan(0);
     expect(screen.getByText('header')).toBeTruthy();
     expect(screen.getByText('query')).toBeTruthy();
@@ -165,7 +169,7 @@ describe('EndpointItem', () => {
     const rbBtn = screen.getByRole('button', { name: /request body/i });
     fireEvent.click(rbBtn);
     expect(screen.getByText('SamplePayload')).toBeTruthy();
-    
+
     const previews = screen.getAllByTestId('schema-preview');
     const matchFound = previews.some((p) => p.textContent?.includes('username'));
     expect(matchFound).toBe(true);
