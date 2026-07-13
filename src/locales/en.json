@@ -68,7 +68,7 @@
     "title": "Request History & Analytics",
     "empty": "You haven't executed any requests yet",
     "emptyHint": "Use the editor and viewer to make API requests.",
-    "goToEditor": "Go to Editor",
+    "goToEditor": "Go to main page (Editor and Viewer)",
     "method": "Method",
     "url": "URL / Endpoint",
     "status": "Status",
