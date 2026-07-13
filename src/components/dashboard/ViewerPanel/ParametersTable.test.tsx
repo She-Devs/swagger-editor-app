@@ -1,11 +1,29 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
+import { NextIntlClientProvider } from 'next-intl';
 import { ParametersTable } from './ParametersTable';
 import type { OAParameter } from './types';
 
+const messages = {
+  Viewer: {
+    none: 'None',
+    name: 'Name',
+    requiredColumn: 'Required',
+    type: 'Type',
+    description: 'Description',
+    required: 'required',
+    yes: 'yes',
+    no: 'no',
+  },
+};
+
 function renderWithMantine(ui: React.ReactElement) {
-  return render(<MantineProvider>{ui}</MantineProvider>);
+  return render(
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <MantineProvider>{ui}</MantineProvider>
+    </NextIntlClientProvider>
+  );
 }
 
 const params: OAParameter[] = [

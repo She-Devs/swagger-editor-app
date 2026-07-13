@@ -1,11 +1,25 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
+import { NextIntlClientProvider } from 'next-intl';
 import { EndpointList } from './EndpointList';
 import { OpenAPI } from 'openapi-types';
 
+const messages = {
+  Viewer: {
+    noEndpoints: 'No endpoints found',
+    endpointsTitle: 'Endpoints ({count})',
+    path: 'Path',
+    methodCount: '{count, plural, one {# method} other {# methods}}',
+  },
+};
+
 function renderWithMantine(ui: React.ReactElement) {
-  return render(<MantineProvider>{ui}</MantineProvider>);
+  return render(
+    <NextIntlClientProvider locale="en" messages={messages}>
+      <MantineProvider>{ui}</MantineProvider>
+    </NextIntlClientProvider>
+  );
 }
 
 describe('EndpointList', () => {

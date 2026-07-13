@@ -1,12 +1,13 @@
 import { Header } from '@/components/layouts/Header/Header';
 import { Footer } from '@/components/layouts/Footer/Footer';
-import {  MantineProvider } from '@mantine/core';
+import { MantineProvider } from '@mantine/core';
 import { theme } from '../theme';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
+import classes from './layout.module.css';
 
 export default async function RootLayout({
   children,
@@ -23,11 +24,13 @@ export default async function RootLayout({
       <MantineProvider theme={theme} defaultColorScheme="auto">
         <Notifications position="top-right" />
         <AuthProvider>
-          <Header />
-          {children}
-          <Footer />
+          <div className={classes.wrapper}>
+            <Header />
+            <main className={classes.main}>{children}</main>
+            <Footer />
+          </div>
         </AuthProvider>
       </MantineProvider>
-    </NextIntlClientProvider>  
+    </NextIntlClientProvider>
   );
 }
