@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import { MantineProvider } from '@mantine/core';
  
 const mockGetClaims = vi.fn();
-const mockOrder = vi.fn();
+const mockLimit = vi.fn();
+const mockOrder = vi.fn(() => ({ limit: mockLimit }));
 const mockSelect = vi.fn(() => ({ order: mockOrder }));
 const mockFrom = vi.fn(() => ({ select: mockSelect }));
  
@@ -80,7 +81,7 @@ describe('HistoryPage', () => {
  
   it('throws when supabase returns an error', async () => {
     mockGetClaims.mockResolvedValue({ data: { claims: { sub: '123' } } });
-    mockOrder.mockResolvedValue({ data: null, error: { message: 'DB error' } });
+    mockLimit.mockResolvedValue({ data: null, error: { message: 'DB error' } });
  
     await expect(
       HistoryPage({ params: Promise.resolve({ locale: 'en' }) })
@@ -89,7 +90,7 @@ describe('HistoryPage', () => {
  
   it('renders empty state when history is empty', async () => {
     mockGetClaims.mockResolvedValue({ data: { claims: { sub: '123' } } });
-    mockOrder.mockResolvedValue({ data: [], error: null });
+    mockLimit.mockResolvedValue({ data: [], error: null });
  
     const jsx = await HistoryPage({ params: Promise.resolve({ locale: 'en' }) });
     renderWithMantine(jsx);
@@ -101,7 +102,7 @@ describe('HistoryPage', () => {
  
   it('renders HistoryList when history has records', async () => {
     mockGetClaims.mockResolvedValue({ data: { claims: { sub: '123' } } });
-    mockOrder.mockResolvedValue({
+    mockLimit.mockResolvedValue({
       data: [{ id: '1' }, { id: '2' }],
       error: null,
     });

@@ -96,6 +96,7 @@
     "description": "Описание",
     "yes": "да",
     "no": "нет"
+    },
   "AboutPage": {
     "hero": {
       "title": "Swagger Editor",
