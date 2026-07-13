@@ -186,4 +186,40 @@ describe('convertSchema', () => {
     expect(result).not.toBeNull();
     expect(result).toContain('{}');
   });
+
+  describe('convertSchema edge cases (error handling)', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+  
+    it('returns null when converted text is empty', () => {
+      const mockParseResult: ParseResult = {
+        format: 'yaml',
+        data: { key: 'value' },
+      };
+  
+      vi.mocked(parseAndDetectFormat).mockReturnValue(mockParseResult);
+      vi.spyOn(JSON, 'stringify').mockReturnValue('   ');
+  
+      const result = convertSchema('key: value', 'json');
+  
+      expect(result).toBeNull();
+    });
+  
+    it('returns null when conversion throws an error', () => {
+      const mockParseResult: ParseResult = {
+        format: 'yaml',
+        data: { key: 'value' },
+      };
+  
+      vi.mocked(parseAndDetectFormat).mockReturnValue(mockParseResult);
+      vi.spyOn(JSON, 'stringify').mockImplementation(() => {
+        throw new Error('Serialization failed');
+      });
+  
+      const result = convertSchema('key: value', 'json');
+  
+      expect(result).toBeNull();
+    });
+  });
 });
