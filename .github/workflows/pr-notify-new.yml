@@ -1,0 +1,17 @@
+name: Telegram PR Notification (Swagger)
+
+on:
+  pull_request:
+    types: [opened]
+    branches: [develop]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to Telegram
+        uses: F2had/pr-telegram-action@v1.0.0
+        with:
+          bot_token: ${{ secrets.BOT_TOKEN }}
+          chat_id: ${{ secrets.CHAT_ID }}
+          thread_id: ${{ secrets.THREAD_ID }}

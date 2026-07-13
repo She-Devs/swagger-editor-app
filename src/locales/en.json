@@ -1,0 +1,153 @@
+{
+  "Navigation": {
+    "main": "Main",
+    "about": "About",
+    "sign-in": "Sign In",
+    "sign-up": "Sign up",
+    "history": "History",
+    "sign-out": "Sign out"
+  },
+  "About": {
+    "title": "About this app"
+  },
+  "FormatSwitcher": {
+    "switchToYaml": "Switch to YAML",
+    "switchToJson": "Switch to JSON",
+    "invalidSchemaError": "Schema is invalid, conversion impossible"
+  },
+  "Validation": {
+    "emptyState": "No API definition provided",
+    "errorHeader": "Error"
+  },
+  "SaveSchemaButton": {
+    "title": "Save",
+    "successMessage": "Schema saved successfully",
+    "errorMessage": "Failed to save schema",
+    "emptySchemaError": "Schema is empty. Enter an OpenAPI specification",
+    "invalidSchemaError": "Schema is invalid. Fix errors before saving"
+  },
+  "Auth": {
+    "signIn": {
+      "title": "Sign In",
+      "subtitle": "Welcome back! Please enter your details.",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up"
+    },
+    "signUp": {
+      "title": "Sign Up",
+      "subtitle": "Create a new account to get started.",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "password": "Password",
+      "passwordPlaceholder": "Your password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "submit": "Sign Up",
+      "haveAccount": "Already have an account?",
+      "signInLink": "Sign in"
+    },
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordMin": "Password must be at least 8 characters",
+      "passwordWeak": "Password must contain at least one letter, one digit, and one special character",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsMismatch": "Passwords do not match",
+      "authFailed": "Authentication failed. Please try again.",
+      "userExists": "User with this email already exists",
+      "invalidCredentials": "Invalid email or password"
+    }
+  },
+  "ErrorBoundary": {
+    "title": "Oops, something went wrong",
+    "description": "Please try refreshing the page",
+    "retry": "Try again"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved. You may have followed an outdated link.",
+    "backHome": "Back to home"
+  },
+  "History": {
+    "title": "Request History & Analytics",
+    "empty": "You haven't executed any requests yet",
+    "emptyHint": "Use the editor and viewer to make API requests.",
+    "goToEditor": "Go to main page (Editor and Viewer)",
+    "method": "Method",
+    "url": "URL / Endpoint",
+    "status": "Status",
+    "timestamp": "Timestamp",
+    "details": "Details",
+    "duration": "Duration",
+    "requestSize": "Request size",
+    "responseSize": "Response size",
+    "error": "Error"
+  },
+  "Viewer": {
+    "noEndpoints": "No endpoints found",
+    "endpointsTitle": "Endpoints ({count})",
+    "path": "Path",
+    "methodCount": "{count, plural, one {# method} other {# methods}}",
+    "parameters": "Parameters",
+    "requestBody": "Request Body",
+    "required": "required",
+    "requiredColumn": "Required",
+    "responses": "Responses",
+    "none": "None",
+    "name": "Name",
+    "type": "Type",
+    "description": "Description",
+    "yes": "yes",
+    "no": "no"
+    },
+  "AboutPage": {
+    "hero": {
+      "title": "Swagger Editor",
+      "subtitle": "A modern workspace for designing and testing REST APIs",
+      "description": "Create and edit OpenAPI specifications, explore generated documentation, and test API endpoints directly from your browser.",
+      "github": "View on GitHub"
+    },
+    "school": {
+      "title": "Rolling Scopes School",
+      "description": "This project was created as part of the Rolling Scopes School React Course, an educational program focused on modern front-end development."
+    },
+    "highlights": {
+      "handsOnLearning": "Hands-on Learning",
+      "realProjects": "Real Projects",
+      "modernStack": "Modern Stack",
+      "community": "Community"
+},
+    "sections": {
+      "technologies": "Technologies Used",
+      "team": "Meet the Team",
+      "thanks": "Special Thanks"
+    },
+    "thanks": {
+      "description": "Huge thanks to our mentors for their guidance, support, and valuable feedback throughout the journey."
+    }
+  },
+  "TryItOut": {
+    "CurlViewer": {
+      "copyLabel": "Copy cURL command",
+      "copiedLabel": "Copied to clipboard!"
+    },
+    "ExecuteActions": {
+      "execute": "Execute",
+      "generateCurl": "Generate cURL",
+      "clear": "Clear"
+    },
+    "RequestBodyEditor": {
+      "bodyDescription": "Provide payload matching spec configuration (application/json)",
+      "invalidJson": "Invalid JSON syntax"
+    },
+    "ResponseViewer": {
+      "emptyState": "Execute a request to see response."
+    }
+  }
+}

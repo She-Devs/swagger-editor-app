@@ -1,0 +1,153 @@
+{
+  "Navigation": {
+    "main": "Главная",
+    "about": "О нас",
+    "sign-in": "Войти",
+    "sign-up": "Зарегистрироваться",
+    "history": "История",
+    "sign-out": "Выйти"
+  },
+  "About": {
+    "title": "О приложении"
+  },
+  "FormatSwitcher": {
+    "switchToYaml": "Переключить на YAML",
+    "switchToJson": "Переключить на JSON",
+    "invalidSchemaError": "Схема невалидна, конвертация невозможна"
+  },
+  "Validation": {
+    "emptyState": "Введите OpenAPI схему",
+    "errorHeader": "Обнаружены ошибки"
+  },
+  "SaveSchemaButton": {
+    "title": "Сохранить",
+    "successMessage": "Схема успешно сохранена",
+    "errorMessage": "Не удалось сохранить схему",
+    "emptySchemaError": "Схема пустая. Введите OpenAPI спецификацию",
+    "invalidSchemaError": "Схема невалидна. Исправьте ошибки перед сохранением"
+  },
+  "Auth": {
+    "signIn": {
+      "title": "Вход",
+      "subtitle": "Добро пожаловать! Введите свои данные.",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
+      "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "submit": "Войти",
+      "noAccount": "Нет учетной записи?",
+      "signUpLink": "Зарегистрироваться"
+    },
+    "signUp": {
+      "title": "Регистрация",
+      "subtitle": "Создайте новую учетную запись для начала работы.",
+      "email": "Электронная почта",
+      "emailPlaceholder": "ваша@почта.ru",
+      "password": "Пароль",
+      "passwordPlaceholder": "Ваш пароль",
+      "confirmPassword": "Подтвердите пароль",
+      "confirmPasswordPlaceholder": "Повторите пароль",
+      "submit": "Зарегистрироваться",
+      "haveAccount": "Уже есть учетная запись?",
+      "signInLink": "Войти"
+    },
+    "errors": {
+      "emailRequired": "Требуется электронная почта",
+      "emailInvalid": "Неверный формат электронной почты",
+      "passwordRequired": "Требуется пароль",
+      "passwordMin": "Пароль должен содержать не менее 8 символов",
+      "passwordWeak": "Пароль должен содержать хотя бы одну букву, одну цифру и один специальный символ",
+      "confirmPasswordRequired": "Пожалуйста, подтвердите пароль",
+      "passwordsMismatch": "Пароли не совпадают",
+      "authFailed": "Ошибка аутентификации. Пожалуйста, попробуйте еще раз.",
+      "userExists": "Пользователь с этой электронной почтой уже существует",
+      "invalidCredentials": "Неверный email или пароль"
+    }
+  },
+  "ErrorBoundary": {
+    "title": "Упс, что-то пошло не так",
+    "description": "Попробуйте обновить страницу",
+    "retry": "Попробовать снова"
+  },
+  "NotFound": {
+    "title": "Страница не найдена",
+    "description": "Запрашиваемая страница не существует или была перемещена. Возможно, вы перешли по устаревшей ссылке.",
+    "backHome": "Вернуться на главную"
+  },
+  "History": {
+    "title": "История запросов и аналитика",
+    "empty": "Вы ещё не выполняли ни одного запроса",
+    "emptyHint": "Воспользуйтесь редактором и просмотрщиком для выполнения API запросов.",
+    "goToEditor": "Перейти на главную (Editor и Viewer)",
+    "method": "Метод",
+    "url": "URL / Эндпоинт",
+    "status": "Статус",
+    "timestamp": "Время",
+    "details": "Детали",
+    "duration": "Длительность",
+    "requestSize": "Размер запроса",
+    "responseSize": "Размер ответа",
+    "error": "Ошибка"
+  },
+  "Viewer": {
+    "noEndpoints": "Эндпоинты не найдены",
+    "endpointsTitle": "Эндпоинты ({count})",
+    "path": "Путь",
+    "methodCount": "{count, plural, one {# метод} few {# метода} many {# методов} other {# метода}}",
+    "parameters": "Параметры",
+    "requestBody": "Тело запроса",
+    "required": "обязательно",
+    "requiredColumn": "Обязательный",
+    "responses": "Ответы",
+    "none": "Нет",
+    "name": "Название",
+    "type": "Тип",
+    "description": "Описание",
+    "yes": "да",
+    "no": "нет"
+    },
+  "AboutPage": {
+    "hero": {
+      "title": "Swagger Editor",
+      "subtitle": "Современное рабочее пространство для проектирования и тестирования REST API",
+      "description": "Создавайте и редактируйте спецификации OpenAPI, изучайте автоматически сгенерированную документацию и тестируйте API прямо в браузере.",
+      "github": "Открыть GitHub"
+    },
+    "school": {
+      "title": "Rolling Scopes School",
+      "description": "Этот проект был разработан в рамках курса Rolling Scopes School React Course — образовательной программы, посвящённой современным технологиям фронтенд-разработки."
+    },
+    "highlights": {
+      "handsOnLearning": "Практическое обучение",
+      "realProjects": "Реальные проекты",
+      "modernStack": "Современный стек",
+      "community": "Сообщество"
+},
+    "sections": {
+      "technologies": "Используемые технологии",
+      "team": "Наша команда",
+      "thanks": "Особая благодарность"
+    },
+    "thanks": {
+      "description": "Благодарим наших менторов за поддержку, ценные советы и конструктивную обратную связь, которые помогали нам на протяжении всей разработки проекта."
+    }
+  },
+  "TryItOut": {
+    "CurlViewer": {
+      "copyLabel": "Скопировать команду cURL",
+      "copiedLabel": "Скопировано в буфер!"
+    },
+    "ExecuteActions": {
+      "execute": "Выполнить",
+      "generateCurl": "Создать cURL",
+      "clear": "Очистить"
+    },
+    "RequestBodyEditor": {
+      "bodyDescription": "Передайте данные, соответствующие спецификации (application/json)",
+      "invalidJson": "Некорректный синтаксис JSON"
+    },
+    "ResponseViewer": {
+      "emptyState": "Выполните запрос, чтобы увидеть ответ."
+    }
+  }
+}
