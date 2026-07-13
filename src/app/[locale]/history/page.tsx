@@ -1,10 +1,10 @@
 import { createClient } from '@/lib/supabase/server';
 import { HistoryList } from '@/components/HistoryList/HistoryList';
+import { EmptyStateActions } from '@/components/ui/EmptyStateActions/EmptyStateActions';
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/navigation';
 import { redirect } from 'next/navigation';
-import { Box, Button, Container, Group, Text, Title } from '@mantine/core';
-import { IconHistory, IconPencil } from '@tabler/icons-react';
+import { Box, Container, Group, Text, Title } from '@mantine/core';
+import { IconHistory } from '@tabler/icons-react';
 import classes from './HistoryPage.module.css';
  
 export default async function HistoryPage({
@@ -37,16 +37,7 @@ export default async function HistoryPage({
         <Box p="xl" className={classes.emptyState}>
           <Text size="lg" fw={500} mb="xs">{t('empty')}</Text>
           <Text size="sm" c="dimmed" mb="xl">{t('emptyHint')}</Text>
-          <Group justify="center" gap="sm">
-            <Button
-              component={Link}
-              href="/"
-              leftSection={<IconPencil size={16} />}
-              variant="light"
-            >
-              {t('goToEditor')}
-            </Button>
-          </Group>
+          <EmptyStateActions label={t('goToEditor')} />
         </Box>
       ) : (
         <HistoryList history={history} t={{
