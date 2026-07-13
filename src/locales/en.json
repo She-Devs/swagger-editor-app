@@ -64,6 +64,16 @@
       "invalidCredentials": "Invalid email or password"
     }
   },
+  "ErrorBoundary": {
+    "title": "Oops, something went wrong",
+    "description": "Please try refreshing the page",
+    "retry": "Try again"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved. You may have followed an outdated link.",
+    "backHome": "Back to home"
+  },
   "History": {
     "title": "Request History & Analytics",
     "empty": "You haven't executed any requests yet",

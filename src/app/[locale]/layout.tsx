@@ -5,8 +5,10 @@ import { theme } from '../theme';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { AuthProvider } from '@/components/providers/AuthProvider';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 import classes from './layout.module.css';
- 
+
 export default async function RootLayout({
   children,
   params,
@@ -16,9 +18,11 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
   const messages = await getMessages({ locale });
+
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <MantineProvider theme={theme} defaultColorScheme="auto">
+        <Notifications position="top-right" />
         <AuthProvider>
           <div className={classes.wrapper}>
             <Header />

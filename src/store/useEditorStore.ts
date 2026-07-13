@@ -97,7 +97,7 @@ export const useEditorStore = create<EditorStore>()(
         const { schema } = get();
         
         if (!schema || schema.trim().length === 0) {
-          return;
+          throw new Error('Schema is empty');
         }
       
         set({ isSaving: true });
@@ -114,14 +114,14 @@ export const useEditorStore = create<EditorStore>()(
           });
       
           if (!validation.isValid) {  
-            return;
+            throw new Error('Schema is invalid');
           }
       
           const supabase = createClient();
           const { data: { user } } = await supabase.auth.getUser();
       
           if (!user) {
-            return;
+            throw new Error('User is not authenticated');
           }
       
           const { error } = await supabase
@@ -136,7 +136,7 @@ export const useEditorStore = create<EditorStore>()(
             });
       
           if (error) {
-            return;
+            throw error;
           }
       
         } catch (error) {         
