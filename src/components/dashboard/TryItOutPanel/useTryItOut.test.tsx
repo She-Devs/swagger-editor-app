@@ -3,9 +3,24 @@ import { renderHook, act } from '@testing-library/react';
 import { useTryItOut } from './useTryItOut';
 import type { OAOperation } from '../ViewerPanel/types';
 
+const supabaseMocks = vi.hoisted(() => ({
+  getUser: vi.fn(),
+  from: vi.fn(),
+  insert: vi.fn(),
+}));
+
 vi.mock('@/store/useEditorStore', () => ({
   useEditorStore: (selector: (state: { validatedData: unknown }) => unknown) =>
     selector({ validatedData: { servers: [{ url: 'https://example.com' }] } }),
+}));
+
+vi.mock('@/lib/supabase/client', () => ({
+  createClient: () => ({
+    auth: {
+      getUser: supabaseMocks.getUser,
+    },
+    from: supabaseMocks.from,
+  }),
 }));
 
 vi.mock('./utils', () => ({
@@ -38,6 +53,9 @@ const mockOperation: OAOperation = {
 describe('useTryItOut', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    supabaseMocks.getUser.mockResolvedValue({ data: { user: { id: 'user-1' } } });
+    supabaseMocks.insert.mockResolvedValue({ error: null });
+    supabaseMocks.from.mockReturnValue({ insert: supabaseMocks.insert });
   });
 
   it('should initialize with correctly grouped parameters and default values', () => {
@@ -85,7 +103,7 @@ describe('useTryItOut', () => {
 
   it('should execute successfully and fetch proxy API when valid', async () => {
     fetchMock.mockResolvedValueOnce({
-      json: async () => ({ status: 'success', data: { id: '123' } }),
+      json: async () => ({ status: 200, headers: {}, body: '{"id":"123"}' }),
     });
 
     const { result } = renderHook(() =>
@@ -102,8 +120,16 @@ describe('useTryItOut', () => {
 
     expect(result.current.loading).toBe(false);
     expect(result.current.requestUrl).toBe('https://example.com/users/{id}');
-    expect(result.current.response).toEqual({ status: 'success', data: { id: '123' } });
+    expect(result.current.response).toEqual({ status: 200, headers: {}, body: '{"id":"123"}' });
     expect(fetchMock).toHaveBeenCalledWith('/api/proxy', expect.any(Object));
+    expect(supabaseMocks.from).toHaveBeenCalledWith('requests_history');
+    expect(supabaseMocks.insert).toHaveBeenCalledWith(expect.objectContaining({
+      user_id: 'user-1',
+      url: 'https://example.com/users/{id}',
+      method: 'GET',
+      status_code: 200,
+      error_details: null,
+    }));
   });
 
   it('should handle custom error message when URL generation fails', async () => {

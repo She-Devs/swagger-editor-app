@@ -4,10 +4,12 @@ import { useMemo, useState } from 'react';
 import type { OAOperation } from '../ViewerPanel/types';
 import type { LocalBodyContent, ResponseState } from './types';
 import { useEditorStore } from '@/store/useEditorStore';
+import { createClient } from '@/lib/supabase/client';
 import {
   buildCurl,
   buildRequest,
   buildRequestUrl,
+  type ProxyRequest,
   getInitialBodyText,
   getServerUrl,
 } from './utils';
@@ -16,6 +18,14 @@ interface UseTryItOutParams {
   method: string;
   path: string;
   operation: OAOperation;
+}
+
+function getByteSize(value: string | undefined): number {
+  return new TextEncoder().encode(value ?? '').length;
+}
+
+function getStatusCode(response: ResponseState | null): number | null {
+  return typeof response?.status === 'number' ? response.status : null;
 }
 
 export function useTryItOut({ method, path, operation }: UseTryItOutParams) {
@@ -45,6 +55,42 @@ export function useTryItOut({ method, path, operation }: UseTryItOutParams) {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const getParamValue = (inType: string, name: string) => values[`${inType}_${name}`] ?? '';
+
+  async function saveRequestHistory(
+    request: ProxyRequest,
+    response: ResponseState | null,
+    durationMs: number,
+    errorDetails: string | null = null
+  ) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return;
+    }
+
+    const requestPayload = JSON.stringify({
+      headers: request.headers,
+      body: request.body ?? '',
+    });
+
+    const { error } = await supabase
+      .from('requests_history')
+      .insert({
+        user_id: user.id,
+        url: request.url,
+        method: request.method,
+        status_code: getStatusCode(response),
+        duration_ms: durationMs,
+        request_size: getByteSize(requestPayload),
+        response_size: getByteSize(response?.body),
+        error_details: errorDetails,
+      });
+
+    if (error) {
+      throw error;
+    }
+  }
 
   function updateValue(inType: string, name: string, value: string) {
     const key = `${inType}_${name}`;
@@ -91,12 +137,18 @@ export function useTryItOut({ method, path, operation }: UseTryItOutParams) {
   async function handleExecute() {
     if (!validateFields()) return;
 
+    let preparedRequest: ProxyRequest | null = null;
+    let startedAt = Date.now();
+    let historySaved = false;
+
     try {
       setLoading(true);
       setResponse(null);
       setErrorOutput(null);
 
       const { url, request } = getPreparedRequestData();
+      preparedRequest = request;
+      startedAt = Date.now();
       setRequestUrl(url);
 
       const result = await fetch('/api/proxy', {
@@ -106,22 +158,39 @@ export function useTryItOut({ method, path, operation }: UseTryItOutParams) {
       });
 
       const data = await result.json();
-      if (data.error) throw new Error(data.error);
+      const durationMs = Date.now() - startedAt;
+
+      if (data.error) {
+        await saveRequestHistory(request, null, durationMs, data.error);
+        historySaved = true;
+        throw new Error(data.error);
+      }
       
       setResponse(data);
+      await saveRequestHistory(request, data, durationMs);
+      historySaved = true;
     } catch (error: unknown) {
+      const durationMs = Date.now() - startedAt;
+      let errorMessage = 'Request failed';
+
       if (error instanceof Error) {
         const msg = error.message;
         if (msg.includes('Failed to construct \'URL\'') || msg.includes('Invalid URL')) {
-          setErrorOutput(
-            'Invalid Request URL. Please make sure a valid Base Server URL is defined in your OpenAPI specification.'
-          );
+          errorMessage = 'Invalid Request URL. Please make sure a valid Base Server URL is defined in your OpenAPI specification.';
         } else {
-          setErrorOutput(msg);
+          errorMessage = msg;
         }
-      } else {
-        setErrorOutput('Request failed');
       }
+
+      if (preparedRequest && !historySaved) {
+        try {
+          await saveRequestHistory(preparedRequest, null, durationMs, errorMessage);
+        } catch {
+          // History persistence should not mask the original request error.
+        }
+      }
+
+      setErrorOutput(errorMessage);
     } finally {
       setLoading(false);
     }
