@@ -453,7 +453,9 @@ describe('useEditorStore', () => {
 
       await loadSchema();
 
-      expect(resetSpy).toHaveBeenCalled();
+      expect(resetSpy).not.toHaveBeenCalled();
+      const state = useEditorStore.getState();
+      expect(state.schema).toBe('existing schema');
     });
 
     it('should set isLoading during load', async () => {
