@@ -95,7 +95,7 @@ public/                                       # Static assets
 ```
 
 #### ✅ Deploy - [Swagger-Editor-App](https://swagger-editor-app.netlify.app/) 
-#### 📺 Video-presentation - [Swagger-Editor-App](https://empty-link) 
+#### 📺 Video-presentation - [Swagger-Editor-App](https://youtu.be/E1m8sfXt1iY) 
 
 
 ### 📈 Test coverage
