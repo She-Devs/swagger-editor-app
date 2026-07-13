@@ -2,6 +2,7 @@ import createMiddleware from 'next-intl/middleware';
 import { routing } from './i18n/routing';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isAuthApiError } from '@supabase/supabase-js';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -34,11 +35,26 @@ async function updateSession(request: NextRequest) {
     }
   );
 
-  const { data } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getClaims();
   const user = data?.claims;
+
+  const isInvalidToken = isAuthApiError(error) && error.code === 'bad_jwt';
+
   const url = request.nextUrl.clone();
   const segments = request.nextUrl.pathname.split('/');
   const currentLocale = ['en', 'ru'].includes(segments[1]) ? segments[1] : 'en';
+
+  if (isInvalidToken) {
+    url.pathname = `/${currentLocale}/`;
+    const redirect = NextResponse.redirect(url);
+    
+    request.cookies.getAll().forEach((cookie) => {
+      if (cookie.name.includes('supabase') || cookie.name.includes('sb-')) {
+        redirect.cookies.delete(cookie.name);
+      }
+    });
+    return redirect;
+  }
 
   if (!user && request.nextUrl.pathname.includes('/history')) {
     url.pathname = `/${currentLocale}/`;
