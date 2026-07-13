@@ -171,8 +171,8 @@ export const useEditorStore = create<EditorStore>()(
           }
       
           if (!data) {
-            get().reset();
-            return;
+            set({ isLoading: false });
+            return; 
           }
 
           const { data: { user: currentUser } } = await supabase.auth.getUser();
