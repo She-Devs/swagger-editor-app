@@ -49,11 +49,6 @@ export function Header() {
           <Link className={classes.link} href="/about">
             {t('about')}
           </Link>
-          {user && (
-            <Link className={classes.link} href="/history">
-              {t('history')}
-            </Link>
-          )}
         </Group>
         <Group gap="sm">
 
@@ -68,6 +63,9 @@ export function Header() {
             </>    
           ) : user ? (
             <>
+              <Button component={Link} href="/history" variant="default" className={classes.loginBtn}>
+                {t('history')}
+              </Button>
               <Button onClick={handleSignOut} className={classes.signupBtn}>
                 {t('sign-out')}
               </Button>

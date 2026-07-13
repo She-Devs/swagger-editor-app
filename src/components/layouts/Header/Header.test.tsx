@@ -94,6 +94,72 @@ describe('Header', () => {
     expect(headerElement?.className).toContain('scrolled');
   });
 
+  it('shows Sign In and Sign Up buttons for unauthenticated users', () => {
+    mockUseAuthStore.mockReturnValue({ user: null, isLoading: false });
+
+    render(
+      <MantineProvider>
+        <Header />
+      </MantineProvider>
+    );
+
+    expect(screen.getByText('Sign In')).toBeTruthy();
+    expect(screen.getByText('Sign Up')).toBeTruthy();
+  });
+
+  it('does not show History or Sign Out buttons for unauthenticated users', () => {
+    mockUseAuthStore.mockReturnValue({ user: null, isLoading: false });
+
+    render(
+      <MantineProvider>
+        <Header />
+      </MantineProvider>
+    );
+
+    expect(screen.queryByText('History')).toBeNull();
+    expect(screen.queryByText('Sign Out')).toBeNull();
+  });
+
+  it('does not show Sign In or Sign Up while auth state is loading', () => {
+    mockUseAuthStore.mockReturnValue({ user: null, isLoading: true });
+
+    render(
+      <MantineProvider>
+        <Header />
+      </MantineProvider>
+    );
+
+    expect(screen.queryByText('Sign In')).toBeNull();
+    expect(screen.queryByText('Sign Up')).toBeNull();
+  });
+
+  it('shows History and Sign Out buttons for authenticated users', () => {
+    mockUseAuthStore.mockReturnValue({ user: { id: '123' }, isLoading: false });
+
+    render(
+      <MantineProvider>
+        <Header />
+      </MantineProvider>
+    );
+
+    const historyLink = screen.getByText('History').closest('a');
+    expect(historyLink).toHaveAttribute('href', '/history');
+    expect(screen.getByText('Sign Out')).toBeTruthy();
+  });
+
+  it('does not show Sign In or Sign Up buttons for authenticated users', () => {
+    mockUseAuthStore.mockReturnValue({ user: { id: '123' }, isLoading: false });
+
+    render(
+      <MantineProvider>
+        <Header />
+      </MantineProvider>
+    );
+
+    expect(screen.queryByText('Sign In')).toBeNull();
+    expect(screen.queryByText('Sign Up')).toBeNull();
+  });
+
   it('calls signOut and redirects to main page on Sign Out button click', async () => {
     mockUseAuthStore.mockReturnValue({ user: { id: '123' }, isLoading: false });
     
