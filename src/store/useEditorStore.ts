@@ -164,15 +164,15 @@ export const useEditorStore = create<EditorStore>()(
             .from('schemas')
             .select('content, format')
             .eq('user_id', requestedUserId)
-            .single();
-      
-          if (error && error.code !== 'PGRST116') {
+            .maybeSingle();
+
+          if (error) {
             throw error;
           }
       
           if (!data) {
-            get().reset();
-            return;
+            set({ isLoading: false });
+            return; 
           }
 
           const { data: { user: currentUser } } = await supabase.auth.getUser();
