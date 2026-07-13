@@ -23,7 +23,8 @@ export default async function HistoryPage({
   const { data: history, error } = await supabase
     .from('requests_history')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(50);
   if (error) throw new Error(error.message);
  
   return (
