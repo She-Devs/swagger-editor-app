@@ -131,6 +131,23 @@
     "thanks": {
       "description": "Huge thanks to our mentors for their guidance, support, and valuable feedback throughout the journey."
     }
+  },
+  "TryItOut": {
+    "CurlViewer": {
+      "copyLabel": "Copy cURL command",
+      "copiedLabel": "Copied to clipboard!"
+    },
+    "ExecuteActions": {
+      "execute": "Execute",
+      "generateCurl": "Generate cURL",
+      "clear": "Clear"
+    },
+    "RequestBodyEditor": {
+      "bodyDescription": "Provide payload matching spec configuration (application/json)",
+      "invalidJson": "Invalid JSON syntax"
+    },
+    "ResponseViewer": {
+      "emptyState": "Execute a request to see response."
+    }
   }
 }
-

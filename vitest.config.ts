@@ -18,6 +18,7 @@ test: {
       'src/**/*.test.{ts,tsx}',
       'src/**/*.spec.{ts,tsx}',
       'src/**/*.d.ts',
+      'src/**/types.ts',
     ],
 
     thresholds: {

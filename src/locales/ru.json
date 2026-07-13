@@ -131,5 +131,23 @@
     "thanks": {
       "description": "Благодарим наших менторов за поддержку, ценные советы и конструктивную обратную связь, которые помогали нам на протяжении всей разработки проекта."
     }
+  },
+  "TryItOut": {
+    "CurlViewer": {
+      "copyLabel": "Скопировать команду cURL",
+      "copiedLabel": "Скопировано в буфер!"
+    },
+    "ExecuteActions": {
+      "execute": "Выполнить",
+      "generateCurl": "Создать cURL",
+      "clear": "Очистить"
+    },
+    "RequestBodyEditor": {
+      "bodyDescription": "Передайте данные, соответствующие спецификации (application/json)",
+      "invalidJson": "Некорректный синтаксис JSON"
+    },
+    "ResponseViewer": {
+      "emptyState": "Выполните запрос, чтобы увидеть ответ."
+    }
   }
 }
